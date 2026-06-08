@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기찬푸드 — 전국 1,500+ 식당의 선택</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --bg2: #f8fafc;
+  --surface: #ffffff;
+  --surface2: #f1f5f9;
+  --surface3: #e2e8f0;
+  --orange: #ea580c;
+  --orange2: #f97316;
+  --orange-dim: rgba(234,88,12,.1);
+  --teal: #0d9488;
+  --text: #1e293b;
+  --text-sub: #475569;
+  --text-muted: #94a3b8;
+  --border: rgba(0,0,0,.09);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:3px}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+
+/* ── NOISE OVERLAY ── */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+  opacity:.4;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;height:68px;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:box-shadow .3s;
+}
+nav.scrolled{box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Noto Serif KR',serif;font-weight:700;font-size:1.1rem;letter-spacing:-.01em}
+.nav-logo-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--orange),#dc2626);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:900;color:white;font-family:'Noto Serif KR',serif}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:.875rem;color:var(--text-sub);transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{
+  background:linear-gradient(135deg,var(--orange),#ea580c);
+  color:white;border:none;border-radius:50px;
+  padding:9px 20px;font-size:.85rem;font-weight:700;cursor:pointer;
+  font-family:inherit;transition:transform .2s,box-shadow .2s;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,115,22,.4)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:.3s}
+.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;z-index:999;background:#fff;padding:20px 5%;border-bottom:1px solid var(--border);flex-direction:column;gap:0;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--text-sub);font-size:.95rem;padding:12px 0;border-bottom:1px solid var(--border)}
+.mobile-menu a:last-child{border-bottom:none}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:68px 5% 0;position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 65% 40%, rgba(234,88,12,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 80%, rgba(13,148,136,.05) 0%, transparent 50%),
+    linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),linear-gradient(90deg,rgba(0,0,0,.05) 1px,transparent 1px);
+  background-size:60px 60px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black,transparent);
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black,transparent);
+}
+.hero-inner{position:relative;z-index:1;max-width:760px}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--orange-dim);border:1px solid rgba(249,115,22,.3);
+  color:var(--orange2);border-radius:50px;
+  padding:6px 16px;font-size:.8rem;font-weight:700;margin-bottom:28px;
+  letter-spacing:.04em;
+}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--orange);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.hero h1{
+  font-family:'Noto Serif KR',serif;
+  font-size:clamp(2rem,5vw,3.6rem);
+  font-weight:900;line-height:1.2;
+  margin-bottom:20px;letter-spacing:-.02em;
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--orange),#fbbf24);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{font-size:1.1rem;color:var(--text-sub);margin-bottom:36px;line-height:1.7;max-width:560px}
+.hero-sub strong{color:var(--text);font-weight:600}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{
+  background:linear-gradient(135deg,var(--orange),#ea580c);color:white;
+  border:none;border-radius:50px;padding:14px 28px;
+  font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:transform .2s,box-shadow .2s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(249,115,22,.45)}
+.btn-secondary{
+  background:transparent;color:var(--text);
+  border:1px solid rgba(255,255,255,.2);border-radius:50px;
+  padding:14px 28px;font-size:.95rem;font-weight:500;cursor:pointer;
+  font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-secondary:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.4)}
+.hero-float{
+  position:absolute;right:5%;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:14px;z-index:1;
+}
+.hero-card{
+  background:#fff;border:1px solid rgba(0,0,0,.09);
+  border-radius:var(--radius);padding:18px 22px;min-width:200px;
+  animation:floatCard 4s ease-in-out infinite;
+  box-shadow:0 8px 30px rgba(0,0,0,.1);
+}
+.hero-card:nth-child(2){animation-delay:-1.5s;margin-left:30px}
+.hero-card:nth-child(3){animation-delay:-3s}
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-card-label{font-size:.7rem;color:var(--text-muted);margin-bottom:4px;letter-spacing:.06em;text-transform:uppercase}
+.hero-card-val{font-size:1.3rem;font-weight:700;color:var(--orange)}
+.hero-card-desc{font-size:.78rem;color:var(--text-sub);margin-top:2px}
+
+/* ── TRUST BAR ── */
+.trust-bar{
+  background:#fff7f0;border-top:1px solid rgba(234,88,12,.15);border-bottom:1px solid rgba(234,88,12,.15);
+  padding:20px 5%;
+}
+.trust-inner{
+  max-width:1100px;margin:0 auto;
+  display:flex;justify-content:center;gap:0;flex-wrap:wrap;
+}
+.trust-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 32px;
+  border-right:1px solid var(--border);
+}
+.trust-item:last-child{border-right:none}
+.trust-icon{width:36px;height:36px;border-radius:8px;background:var(--orange-dim);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.trust-label{font-size:.8rem;color:var(--text-sub);line-height:1.3}
+.trust-label strong{display:block;font-size:.9rem;color:var(--text);font-weight:700}
+
+/* ── SECTION COMMONS ── */
+section{padding:90px 5%;position:relative;z-index:1}
+.section-tag{
+  display:inline-block;background:var(--orange-dim);color:var(--orange2);
+  border:1px solid rgba(249,115,22,.25);border-radius:50px;
+  padding:4px 14px;font-size:.75rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:14px;
+}
+.section-title{
+  font-family:'Noto Serif KR',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);
+  font-weight:700;letter-spacing:-.02em;margin-bottom:10px;
+}
+.section-sub{color:var(--text-sub);font-size:.95rem;line-height:1.7;max-width:560px}
+.section-head{margin-bottom:48px}
+
+/* ── STATS ── */
+.stats-section{background:#1e293b;border-top:none;border-bottom:none;padding:60px 5%}
+.stats-section .stat-num{color:#fb923c}
+.stats-section .stat-label{color:#94a3b8}
+.stats-section .stat-item{border-right-color:rgba(255,255,255,.1)}
+.stats-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.stat-item{text-align:center;padding:24px;border-right:1px solid var(--border)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Noto Serif KR',serif;font-size:2.8rem;font-weight:900;color:var(--orange);line-height:1}
+.stat-label{font-size:.85rem;color:var(--text-sub);margin-top:8px}
+
+/* ── PRODUCTS ── */
+.products-section{background:var(--bg)}
+.tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
+.tab-btn{
+  background:#fff;border:1px solid #e2e8f0;
+  color:#64748b;border-radius:50px;
+  padding:9px 20px;font-size:.875rem;font-weight:500;cursor:pointer;
+  font-family:inherit;transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,.06);
+}
+.tab-btn.active,.tab-btn:hover{background:var(--orange);border-color:var(--orange);color:white;font-weight:700;box-shadow:0 4px 14px rgba(234,88,12,.3)}
+.product-panel{display:none}
+.product-panel.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;animation:fadeIn .35s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.product-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:24px;
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+  display:flex;flex-direction:column;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+}
+.product-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.12);border-color:rgba(234,88,12,.3)}
+.product-img-wrap{
+  width:calc(100% + 48px);margin:-24px -24px 20px;
+  height:170px;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;
+  background:#f1f5f9;
+}
+.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.product-card:hover .product-img-wrap img{transform:scale(1.07)}
+.product-badge{
+  display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.05em;
+  padding:3px 10px;border-radius:50px;margin-bottom:10px;
+  background:var(--surface3);color:var(--text-sub);
+}
+.badge-hot{background:rgba(220,38,38,.2);color:#fca5a5}
+.badge-new{background:rgba(20,184,166,.2);color:#5eead4}
+.product-name{font-size:1rem;font-weight:700;margin-bottom:6px;line-height:1.35}
+.product-use{font-size:.8rem;color:var(--text-muted);margin-bottom:14px;line-height:1.5;flex:1}
+.product-price{
+  font-size:.95rem;font-weight:700;color:var(--orange);
+  margin-bottom:14px;
+}
+.product-price span{font-size:.75rem;color:var(--text-muted);font-weight:400}
+.product-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+.sample-btn{
+  background:var(--orange-dim);color:var(--orange2);
+  border:1px solid rgba(249,115,22,.3);border-radius:50px;
+  padding:7px 16px;font-size:.8rem;font-weight:700;cursor:pointer;
+  font-family:inherit;transition:all .2s;
+}
+.sample-btn:hover{background:var(--orange);color:white;border-color:var(--orange)}
+.popular-star{font-size:.8rem;color:var(--orange2)}
+
+/* ── TESTIMONIALS ── */
+.testimonials-section{background:#f8fafc}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.review-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--radius);padding:28px;
+  transition:transform .25s,border-color .25s,box-shadow .25s;
+  position:relative;
+  box-shadow:0 2px 12px rgba(0,0,0,.05);
+}
+.review-card:hover{transform:translateY(-4px);border-color:rgba(234,88,12,.25);box-shadow:0 12px 32px rgba(0,0,0,.1)}
+.review-card::before{
+  content:'\201C';
+  position:absolute;top:20px;right:24px;
+  font-family:Georgia,serif;font-size:4rem;line-height:1;
+  color:rgba(234,88,12,.15);
+}
+.review-stars{color:var(--orange);font-size:.85rem;margin-bottom:12px;letter-spacing:2px}
+.review-text{font-size:.9rem;color:var(--text-sub);line-height:1.75;margin-bottom:20px}
+.review-author{display:flex;align-items:center;gap:12px}
+.review-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--orange),#dc2626);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.9rem;color:white;flex-shrink:0;
+}
+.review-name{font-weight:700;font-size:.9rem}
+.review-role{font-size:.78rem;color:var(--text-muted)}
+
+/* ── FAQ ── */
+.faq-section{background:var(--bg)}
+.faq-list{max-width:720px}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  background:none;border:none;color:var(--text);
+  font-family:inherit;font-size:.975rem;font-weight:600;
+  padding:22px 0;cursor:pointer;text-align:left;gap:20px;
+  transition:color .2s;
+}
+.faq-q:hover{color:var(--orange)}
+.faq-icon{
+  width:26px;height:26px;border-radius:50%;background:#f1f5f9;border:1px solid #e2e8f0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;flex-shrink:0;transition:transform .3s,background .2s;color:#64748b;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--orange);color:white;border-color:var(--orange)}
+.faq-a{
+  max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s;
+  font-size:.875rem;color:var(--text-sub);line-height:1.75;
+}
+.faq-item.open .faq-a{max-height:200px;padding-bottom:20px}
+
+/* ── BRAND STORY ── */
+.brand-section{
+  background:#fff7f0;
+  border-top:1px solid rgba(234,88,12,.12);border-bottom:1px solid rgba(234,88,12,.12);
+}
+.brand-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.brand-quote{
+  font-family:'Noto Serif KR',serif;
+  font-size:clamp(1.1rem,2vw,1.45rem);
+  font-weight:600;line-height:1.8;color:var(--text);
+  position:relative;padding-left:24px;
+}
+.brand-quote::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;border-radius:3px;
+  background:linear-gradient(180deg,var(--orange),var(--teal));
+}
+.brand-stats-col{display:flex;flex-direction:column;gap:20px}
+.brand-stat{
+  background:#fff;border:1px solid rgba(234,88,12,.12);
+  border-radius:var(--radius-sm);padding:20px 22px;
+  display:flex;align-items:center;gap:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+.brand-stat-icon{font-size:1.5rem}
+.brand-stat-num{font-size:1.6rem;font-weight:900;color:var(--orange);font-family:'Noto Serif KR',serif}
+.brand-stat-label{font-size:.8rem;color:var(--text-muted)}
+
+/* ── CONTACT/CTA ── */
+.cta-section{
+  background:linear-gradient(135deg, #fff7f0 0%, #fef3c7 100%);
+  border-top:1px solid rgba(234,88,12,.15);text-align:center;
+}
+.cta-section .section-title{color:#1e293b}
+.cta-section .section-sub{color:#64748b;margin:0 auto 36px}
+.cta-phone{
+  font-family:'Noto Serif KR',serif;font-size:2rem;font-weight:700;
+  color:var(--orange);margin-bottom:32px;display:block;
+}
+.social-links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:36px}
+.social-link{
+  display:flex;align-items:center;gap:8px;
+  background:#fff;border:1px solid rgba(0,0,0,.12);
+  border-radius:50px;padding:10px 20px;font-size:.85rem;font-weight:600;
+  color:#475569;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.social-link:hover{border-color:var(--orange);color:var(--orange);background:var(--orange-dim)}
+.contact-form-wrap{max-width:540px;margin:40px auto 0;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:var(--radius);padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+.contact-form-wrap h3{font-size:1.1rem;font-weight:700;margin-bottom:20px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.form-group label{font-size:.8rem;color:var(--text-sub);font-weight:500}
+.form-group input,.form-group select,.form-group textarea{
+  background:#f8fafc;border:1px solid #e2e8f0;
+  color:var(--text);border-radius:var(--radius-sm);
+  padding:11px 14px;font-size:.875rem;font-family:inherit;
+  transition:border-color .2s;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--orange)}
+.form-group select option{background:var(--surface2)}
+.form-group textarea{height:90px;resize:vertical}
+.form-submit{
+  width:100%;background:linear-gradient(135deg,var(--orange),#ea580c);
+  color:white;border:none;border-radius:50px;
+  padding:14px;font-size:.95rem;font-weight:700;cursor:pointer;
+  font-family:inherit;transition:transform .2s,box-shadow .2s;
+}
+.form-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(249,115,22,.4)}
+
+/* ── FOOTER ── */
+footer{background:#1e293b;border-top:none;padding:48px 5% 28px;color:#f1f5f9}
+footer .footer-brand p,.footer-col ul li a,.footer-bottom span,.footer-bottom a{color:#94a3b8}
+footer .footer-col h4{color:#cbd5e1}
+footer .logo{color:#f1f5f9}
+footer .footer-col ul li a:hover{color:#fb923c}
+footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:36px}
+.footer-brand .logo{font-family:'Noto Serif KR',serif;font-size:1.2rem;font-weight:700;margin-bottom:12px}
+.footer-brand p{font-size:.8rem;color:var(--text-muted);line-height:1.8}
+.footer-col h4{font-size:.8rem;color:var(--text-sub);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-col ul li a{font-size:.82rem;color:var(--text-muted);transition:color .2s}
+.footer-col ul li a:hover{color:var(--orange2)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-bottom span,.footer-bottom a{font-size:.78rem;color:var(--text-muted)}
+.footer-bottom a:hover{color:var(--orange2)}
+
+/* ── FLOATING CTA ── */
+.float-cta{
+  position:fixed;bottom:28px;right:24px;z-index:900;
+  background:linear-gradient(135deg,var(--orange),#ea580c);
+  color:white;border-radius:50px;padding:14px 22px;
+  font-size:.875rem;font-weight:700;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 8px 32px rgba(249,115,22,.5);
+  animation:floatBtn 3s ease-in-out infinite;
+  transition:transform .2s;
+}
+.float-cta:hover{transform:scale(1.05)}
+@keyframes floatBtn{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+/* ── SEARCH ── */
+.search-wrap{
+  position:relative;max-width:480px;margin-bottom:28px;
+}
+.search-input{
+  width:100%;background:#fff;border:2px solid #e2e8f0;
+  border-radius:50px;padding:13px 20px 13px 48px;
+  font-size:.95rem;font-family:inherit;color:var(--text);
+  transition:border-color .2s,box-shadow .2s;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+.search-input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(234,88,12,.12)}
+.search-icon{
+  position:absolute;left:17px;top:50%;transform:translateY(-50%);
+  font-size:1rem;color:var(--text-muted);pointer-events:none;
+}
+.search-clear{
+  position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  background:none;border:none;font-size:1rem;color:var(--text-muted);
+  cursor:pointer;display:none;line-height:1;
+}
+.no-results{
+  grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted);
+}
+.no-results span{font-size:2.5rem;display:block;margin-bottom:12px}
+.search-panel{display:none;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;animation:fadeIn .3s ease}
+.search-panel.active{display:grid}
+
+/* ── INQUIRY MODAL ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:2000;
+  background:rgba(0,0,0,.5);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.open{display:flex;animation:fadeIn .2s ease}
+.modal-box{
+  background:#fff;border-radius:20px;padding:36px;max-width:500px;width:100%;
+  box-shadow:0 24px 80px rgba(0,0,0,.2);position:relative;
+  max-height:90vh;overflow-y:auto;
+}
+.modal-close-btn{
+  position:absolute;top:16px;right:16px;
+  background:#f1f5f9;border:none;border-radius:50%;
+  width:32px;height:32px;font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.modal-close-btn:hover{background:#e2e8f0}
+.modal-product-tag{
+  display:inline-block;background:var(--orange-dim);color:var(--orange);
+  border:1px solid rgba(234,88,12,.25);border-radius:50px;
+  padding:4px 12px;font-size:.75rem;font-weight:700;margin-bottom:12px;
+}
+.modal-title{font-size:1.2rem;font-weight:700;margin-bottom:6px}
+.modal-sub{font-size:.85rem;color:var(--text-muted);margin-bottom:24px}
+.modal-sending{display:none;text-align:center;padding:20px}
+.modal-success{display:none;text-align:center;padding:20px}
+.modal-success .check{font-size:3rem;margin-bottom:12px}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .hero-float{display:none}
+  .footer-inner{grid-template-columns:1fr 1fr 1fr}
+  .brand-inner{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .trust-item{padding:10px 18px}
+  .trust-inner{justify-content:flex-start;overflow-x:auto}
+  .stats-grid{grid-template-columns:1fr}
+  .stat-item{border-right:none;border-bottom:1px solid var(--border);padding:20px}
+  .stat-item:last-child{border-bottom:none}
+  .form-row{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr 1fr;gap:28px}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .brand-inner{grid-template-columns:1fr;gap:32px}
+}
+@media(max-width:480px){
+  section{padding:70px 5%}
+  .product-panel.active{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column;align-items:flex-start}
+  .footer-inner{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">기찬</div>
+    기찬푸드
+  </a>
+  <ul class="nav-links">
+    <li><a href="#products">제품</a></li>
+    <li><a href="#reviews">고객후기</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">문의</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">무료 샘플 신청</button>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="메뉴">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#products" onclick="toggleMenu()">제품</a>
+  <a href="#reviews" onclick="toggleMenu()">고객후기</a>
+  <a href="#faq" onclick="toggleMenu()">FAQ</a>
+  <a href="#contact" onclick="toggleMenu()">문의</a>
+  <a href="#contact" onclick="toggleMenu()" style="color:var(--orange);font-weight:700">무료 샘플 신청 →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">🚚 전국 익일 배송</div>
+    <h1>오후 2시까지만<br>주문하면 <em>내일 바로</em> 도착</h1>
+    <p class="hero-sub">
+      <strong>전국 1,500+ 식당·프랜차이즈의 선택, 기찬푸드.</strong><br>
+      별다른 광고 없이 입소문만으로 성장한<br>30년 노하우 메뉴 개발 전문 기업.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+        📦 무료 샘플 신청하기
+      </button>
+      <button class="btn-secondary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+        제품 둘러보기 →
+      </button>
+    </div>
+  </div>
+  <div class="hero-float">
+    <div class="hero-card">
+      <div class="hero-card-label">납품 식당</div>
+      <div class="hero-card-val">1,500+</div>
+      <div class="hero-card-desc">전국 식당·프랜차이즈</div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-label">판매 제품</div>
+      <div class="hero-card-val">30+</div>
+      <div class="hero-card-desc">소스·육수·완제품</div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-label">배송</div>
+      <div class="hero-card-val">익일</div>
+      <div class="hero-card-desc">오후 2시 이전 주문 시</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <div class="trust-icon">✅</div>
+      <div class="trust-label"><strong>HACCP 인증</strong>위생 안전 관리 인증</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🏛️</div>
+      <div class="trust-label"><strong>식약처 등록</strong>식품의약품안전처</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🚚</div>
+      <div class="trust-label"><strong>익일 배송</strong>오후 2시 이전 주문</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🍽️</div>
+      <div class="trust-label"><strong>메뉴 컨설팅 무료</strong>창업·신메뉴 개발</div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item reveal">
+      <div class="stat-num">30<span style="font-size:1.8rem">+</span></div>
+      <div class="stat-label">공식 판매 제품 수</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">1,500<span style="font-size:1.8rem">+</span></div>
+      <div class="stat-label">전국 납품 식당·프랜차이즈</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">무료</div>
+      <div class="stat-label">메뉴 컨설팅 제공</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products-section" id="products">
+  <div class="section-head reveal">
+    <div class="section-tag">PRODUCTS</div>
+    <h2 class="section-title">업소용 소스 · 육수 · 완제품</h2>
+    <p class="section-sub">식당 사장님들이 직접 선택한 검증된 제품. 1개부터 대량까지 유연한 주문.</p>
+  </div>
+  <!-- 검색바 -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="제품명으로 검색하세요 (예: 갈비탕, 냉면, 쭈꾸미...)" oninput="searchProducts(this.value)">
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+  </div>
+
+  <!-- 검색 결과 패널 -->
+  <div class="search-panel" id="searchPanel"></div>
+
+  <div class="tab-row" id="tabRow">
+    <button class="tab-btn active" onclick="switchTab('tang',event)">🍲 탕·국물류</button>
+    <button class="tab-btn" onclick="switchTab('noodle',event)">🍜 면류·육수</button>
+    <button class="tab-btn" onclick="switchTab('ready',event)">🥩 완제품·양념</button>
+  </div>
+
+  <div class="product-panel active" id="panel-tang">
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1746718547557-1a0e05bed94b?auto=format&fit=crop&w=600&h=340&q=80" alt="갈비탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge badge-hot">🔥 인기</span>
+      <div class="product-name">갈비탕 소스 / 해산물 소스 / 멸치진국</div>
+      <div class="product-use">갈비탕, 냉면·밀면 온육수, 각종 탕류에 최적</div>
+      <div class="product-price">9,000원 ~ 275,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <span class="popular-star">★★★★★</span>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1775883374700-bddbb6c80fcb?auto=format&fit=crop&w=600&h=340&q=80" alt="동태탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">분말</span>
+      <div class="product-name">동태탕 소스</div>
+      <div class="product-use">동태탕, 대구탕, 아구탕, 매운탕, 해물탕, 알탕 (지리/얼큰)</div>
+      <div class="product-price">27,500원 ~ 275,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <span class="popular-star">★★★★★</span>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1673520844268-91279078ed1c?auto=format&fit=crop&w=600&h=340&q=80" alt="추어탕 재료" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">액상</span>
+      <div class="product-name">추어탕 재료</div>
+      <div class="product-use">추어매운탕, 추어탕, 어탕국수, 어제비, 매운탕 (맑은/얼큰)</div>
+      <div class="product-price">15,950원 ~ 287,100원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1747479465225-8aad0745345c?auto=format&fit=crop&w=600&h=340&q=80" alt="황태해산물 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">분말</span>
+      <div class="product-name">황태 해산물 소스</div>
+      <div class="product-use">미역국, 콩나물국밥, 황태해장국, 칼국수</div>
+      <div class="product-price">9,000원 ~ 275,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1684866907269-2248f7334a09?auto=format&fit=crop&w=600&h=340&q=80" alt="미역국 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge badge-new">신제품</span>
+      <div class="product-name">미역국 소스</div>
+      <div class="product-use">미역국 전용 분말 소스 — 1kg에 125인분</div>
+      <div class="product-price">12,100원 ~ 275,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1676686997059-fb817ebbb2b5?auto=format&fit=crop&w=600&h=340&q=80" alt="감자탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">분말</span>
+      <div class="product-name">감자탕 · 뼈다귀해장국 소스</div>
+      <div class="product-use">감자탕, 뼈다귀해장국 전용</div>
+      <div class="product-price">25,000원 ~ 209,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1709433420422-731e1be1c9aa?auto=format&fit=crop&w=600&h=340&q=80" alt="순두부 해장국" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge badge-hot">🔥 인기</span>
+      <div class="product-name">순두부 해장국</div>
+      <div class="product-use">순두부찌개, 해장국, 얼큰탕류</div>
+      <div class="product-price">550원 ~ 275,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <span class="popular-star">★★★★★</span>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1777113310299-c3e41dec4e0f?auto=format&fit=crop&w=600&h=340&q=80" alt="곱창전골 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">액상</span>
+      <div class="product-name">곱창전골 소스</div>
+      <div class="product-use">곱창전골, 닭도리탕 등 얼큰탕용</div>
+      <div class="product-price">12,000원 ~ 220,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1504674999014-e8f0b689c560?auto=format&fit=crop&w=600&h=340&q=80" alt="샤브샤브 육수" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">분말</span>
+      <div class="product-name">샤브샤브 육수</div>
+      <div class="product-use">샤브샤브, 칼국수, 만두전골, 굴국밥</div>
+      <div class="product-price">20,000원 ~ 308,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1676686997059-fb817ebbb2b5?auto=format&fit=crop&w=600&h=340&q=80" alt="뼈해장국" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">완제품</span>
+      <div class="product-name">뼈해장국 (900g)</div>
+      <div class="product-use">진하고 깊은 뼈해장국 완제품</div>
+      <div class="product-price">25,000원 ~ 209,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1780191846226-9607dd1abee5?auto=format&fit=crop&w=600&h=340&q=80" alt="칼국수 육수" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">분말</span>
+      <div class="product-name">칼국수 육수</div>
+      <div class="product-use">칼국수, 얼큰칼국수, 잔치국수</div>
+      <div class="product-price">9,000원 ~ 275,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1709433420422-731e1be1c9aa?auto=format&fit=crop&w=600&h=340&q=80" alt="우동 육수" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">분말</span>
+      <div class="product-name">우동 · 수육국밥 육수</div>
+      <div class="product-use">우동, 수육국밥, 얼큰차돌우동국밥</div>
+      <div class="product-price">19,000원 ~ 396,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-panel" id="panel-noodle">
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1713279714163-068260fb46f1?auto=format&fit=crop&w=600&h=340&q=80" alt="냉면육수 원액" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge badge-hot">🔥 인기</span>
+      <div class="product-name">냉면육수 원액 3종</div>
+      <div class="product-use">기찬육수, 사골육수, 동치미육수, 목사발육수</div>
+      <div class="product-price">66,000원 ~ 198,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <span class="popular-star">★★★★★</span>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1780191846226-9607dd1abee5?auto=format&fit=crop&w=600&h=340&q=80" alt="소바육수 소바면" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">면류+육수</span>
+      <div class="product-name">소바육수 · 소바면</div>
+      <div class="product-use">메밀소바면, 함흥냉면, 메밀냉면, 쌀냉면</div>
+      <div class="product-price">20,000원 ~ 187,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1566705474094-5bf047ce2754?auto=format&fit=crop&w=600&h=340&q=80" alt="들기름 막국수" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge badge-new">신제품</span>
+      <div class="product-name">들기름 막국수 · 메밀소바 육수</div>
+      <div class="product-use">들기름 막국수용 참맛소스, 메밀소바 육수</div>
+      <div class="product-price">11,000원 ~ 220,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-panel" id="panel-ready">
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1548592806-482f9b023d51?auto=format&fit=crop&w=600&h=340&q=80" alt="한돈 돼지갈비찜" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge badge-hot">🔥 인기</span>
+      <div class="product-name">한돈 매운 돼지갈비찜</div>
+      <div class="product-use">국내산 한돈으로 만든 돼지갈비찜</div>
+      <div class="product-price">6,270원 ~ 156,750원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <span class="popular-star">★★★★★</span>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1676686997059-fb817ebbb2b5?auto=format&fit=crop&w=600&h=340&q=80" alt="1인 감자탕" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">완제품</span>
+      <div class="product-name">1인 감자탕 / 감자탕 소스</div>
+      <div class="product-use">1인용 감자탕 완제품, 원가 절감에 최적</div>
+      <div class="product-price">2,150원 ~ 209,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1698462297918-79ae9314e062?auto=format&fit=crop&w=600&h=340&q=80" alt="한돈 양념돼지갈비" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge badge-hot">🔥 인기</span>
+      <div class="product-name">한돈 양념 돼지갈비 1kg</div>
+      <div class="product-use">즉시 조리 가능한 양념 완제품</div>
+      <div class="product-price">11,500원 ~ 217,800원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <span class="popular-star">★★★★★</span>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1698462297918-79ae9314e062?auto=format&fit=crop&w=600&h=340&q=80" alt="양념쭈꾸미" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">완제품</span>
+      <div class="product-name">양념쭈꾸미 500g</div>
+      <div class="product-use">직접 만든 양념 그대로의 맛, 가게 시그니처 메뉴로</div>
+      <div class="product-price">9,020원 ~ 356,400원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1771308457577-3a60d43907b2?auto=format&fit=crop&w=600&h=340&q=80" alt="돼지국밥 수육" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">완제품</span>
+      <div class="product-name">돼지국밥 + 수육</div>
+      <div class="product-use">맑은 돼지국밥, 순대국밥 완제품</div>
+      <div class="product-price">4,100원 ~ 231,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1746718547557-1a0e05bed94b?auto=format&fit=crop&w=600&h=340&q=80" alt="프리미엄 왕갈비탕" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge badge-hot">🔥 인기</span>
+      <div class="product-name">프리미엄 왕갈비탕 1kg</div>
+      <div class="product-use">바로 사용 가능한 완성형 왕갈비탕</div>
+      <div class="product-price">9,130원 ~ 146,080원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <span class="popular-star">★★★★★</span>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1775883374700-bddbb6c80fcb?auto=format&fit=crop&w=600&h=340&q=80" alt="순살갈비탕" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge">완제품</span>
+      <div class="product-name">순살갈비탕 원팩</div>
+      <div class="product-use">뼈 없이 즐기는 순살 갈비탕 완제품</div>
+      <div class="product-price">20,000원 ~ 149,600원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+      </div>
+    </div>
+    <div class="product-card reveal" style="border-color:rgba(249,115,22,.4);background:linear-gradient(135deg,var(--surface),#1a1000)">
+      <div class="product-img-wrap"><img src="https://images.unsplash.com/photo-1590189599125-67138c6509ef?auto=format&fit=crop&w=600&h=340&q=80" alt="소갈비살 LA갈비" loading="lazy" onerror="this.style.display='none'"></div>
+      <span class="product-badge" style="background:rgba(249,115,22,.2);color:var(--orange2)">⭐ 초이스등급</span>
+      <div class="product-name">프리미엄 소갈비살 · LA갈비 · 토시살</div>
+      <div class="product-use">초이스등급 프리미엄 육류 — 창업·업종변경·추가메뉴에 최적</div>
+      <div class="product-price">19,000원 ~ 840,000원 <span>/ 용량별</span></div>
+      <div class="product-footer">
+        <button class="sample-btn" onclick="openInquiry(this)">문의하기</button>
+        <span class="popular-star">⭐ 특선</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="reviews">
+  <div class="section-head reveal">
+    <div class="section-tag">REVIEWS</div>
+    <h2 class="section-title">전국 사장님들의 솔직한 후기</h2>
+    <p class="section-sub">광고 없이 입소문으로만 성장한 기찬푸드. 직접 써보신 분들의 이야기입니다.</p>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"기존에 직접 끓일 때와 거의 똑같은 맛. 인건비 줄이고 메뉴 일관성도 확보했습니다."</p>
+      <div class="review-author">
+        <div class="review-avatar">K</div>
+        <div>
+          <div class="review-name">K 사장님</div>
+          <div class="review-role">갈비탕 전문점 운영</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"20개 가맹점 동일 맛 유지가 어려웠는데 기찬푸드 원팩 도입 후 컴플레인 0건."</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:linear-gradient(135deg,#14b8a6,#0891b2)">P</div>
+        <div>
+          <div class="review-name">P 사장님</div>
+          <div class="review-role">프랜차이즈 본부장</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"양념돼지갈비 캠핑팩이 효자상품. 손님들 재방문율 50% 넘었습니다."</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:linear-gradient(135deg,#16a34a,#15803d)">L</div>
+        <div>
+          <div class="review-name">L 사장님</div>
+          <div class="review-role">캠핑 푸드트럭 운영</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"오픈 준비 시 메뉴 컨설팅 무료가 진짜 큰 도움. 첫 달부터 손님 끊이지 않습니다."</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:linear-gradient(135deg,#7c3aed,#4f46e5)">C</div>
+        <div>
+          <div class="review-name">C 사장님</div>
+          <div class="review-role">감자탕 신규 오픈</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"미역국 분말소스가 진국. 1kg에 125인분이라 원가 부담 없이 매일 신선하게 끓입니다."</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:linear-gradient(135deg,#0891b2,#0e7490)">J</div>
+        <div>
+          <div class="review-name">J 사장님</div>
+          <div class="review-role">한식당 운영</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"양념쭈꾸미 사장님이 직접 만든 양념 그대로 느낌. 우리 가게 시그니처가 됐어요."</p>
+      <div class="review-author">
+        <div class="review-avatar" style="background:linear-gradient(135deg,#be123c,#9f1239)">S</div>
+        <div>
+          <div class="review-name">S 사장님</div>
+          <div class="review-role">쭈꾸미 전문점 운영</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="section-head reveal">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title">자주 묻는 질문</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        최소 주문 수량이 어떻게 되나요?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">공식몰에서 1개부터 주문 가능합니다. 완제품 밀키트는 16팩 단위로 판매됩니다. 대량 주문 시 별도 견적을 제공해 드립니다.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        배송 기간이 어떻게 되나요?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">오후 2시 이전 주문 시 익일 배송됩니다 (주말·공휴일 제외). 전국 CJ대한통운을 통해 배송됩니다.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        샘플 신청이 가능한가요?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">네, 하단 샘플 신청 폼으로 신청하시면 됩니다. 식당·프랜차이즈 사장님께 무료 샘플 및 메뉴 컨설팅을 함께 제공해 드립니다.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        제품 유통기한은 어떻게 되나요?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">냉동 밀키트는 제조일로부터 12개월, 분말 소스는 18개월입니다. 개봉 후에는 냉장 보관하여 빠르게 사용하시길 권장합니다.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        결제 수단이 어떻게 되나요?
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-a">네이버페이, 카드, 계좌이체, 휴대폰결제 등 다양한 결제 수단을 지원합니다. 세금계산서 발행도 가능합니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRAND STORY -->
+<section class="brand-section">
+  <div class="brand-inner">
+    <div class="reveal">
+      <div class="section-tag">BRAND STORY</div>
+      <h2 class="section-title">입소문으로만<br>1,500곳과 함께합니다</h2>
+      <p class="brand-quote" style="margin-top:24px">
+        "별다른 광고 없이, 입소문과 소개만으로 전국 1,500여 곳 식당과 프랜차이즈 본사에 자연 육수를 납품해 온 메뉴 개발 전문 회사입니다."
+      </p>
+    </div>
+    <div class="brand-stats-col reveal">
+      <div class="brand-stat">
+        <div class="brand-stat-icon">🏆</div>
+        <div>
+          <div class="brand-stat-num">1,500+</div>
+          <div class="brand-stat-label">전국 납품 식당·프랜차이즈</div>
+        </div>
+      </div>
+      <div class="brand-stat">
+        <div class="brand-stat-icon">📦</div>
+        <div>
+          <div class="brand-stat-num">30+</div>
+          <div class="brand-stat-label">검증된 소스·육수·완제품</div>
+        </div>
+      </div>
+      <div class="brand-stat">
+        <div class="brand-stat-icon">🍽️</div>
+        <div>
+          <div class="brand-stat-num">무료</div>
+          <div class="brand-stat-label">메뉴 컨설팅 & 샘플 제공</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="cta-section" id="contact">
+  <div class="section-tag">CONTACT</div>
+  <h2 class="section-title">무료 샘플로 먼저 확인하세요</h2>
+  <p class="section-sub">사용해보고 만족하시면 그때 주문하세요. 부담 없이 신청하세요.</p>
+  <a href="tel:010-6424-5466" class="cta-phone">📞 010-6424-5466</a>
+  <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:36px">
+    <button class="btn-primary" onclick="document.getElementById('sampleForm').scrollIntoView({behavior:'smooth'})">
+      📋 온라인 신청서 작성
+    </button>
+    <a href="tel:010-6424-5466" class="btn-secondary">📞 전화로 바로 신청</a>
+  </div>
+  <div class="social-links">
+    <a href="https://cafe.naver.com/ggomggomfood" target="_blank" class="social-link">🟢 네이버 카페</a>
+    <a href="https://www.instagram.com/ggom.ggom_food" target="_blank" class="social-link">📸 인스타그램</a>
+    <a href="https://www.threads.com/@ggom.ggom_food" target="_blank" class="social-link">🧵 스레드</a>
+    <a href="https://open.kakao.com/o/sDAu5Nti" target="_blank" class="social-link">💬 카카오톡 채팅</a>
+  </div>
+  <div class="contact-form-wrap reveal" id="sampleForm">
+    <h3>샘플 신청 / 온라인 문의</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>성함 *</label>
+        <input type="text" id="fname" placeholder="홍길동">
+      </div>
+      <div class="form-group">
+        <label>연락처 *</label>
+        <input type="tel" id="fphone" placeholder="010-0000-0000">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>식당명</label>
+      <input type="text" id="frest" placeholder="식당 이름을 입력해주세요">
+    </div>
+    <div class="form-group">
+      <label>관심 제품</label>
+      <select id="fproduct">
+        <option value="">-- 선택해주세요 --</option>
+        <option>갈비탕 소스 / 육수류</option>
+        <option>동태탕 / 해물탕 소스</option>
+        <option>냉면육수 원액</option>
+        <option>완제품 밀키트</option>
+        <option>양념 완제품</option>
+        <option>프리미엄 육류</option>
+        <option>기타 (직접 기재)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>문의 내용</label>
+      <textarea id="fmsg" placeholder="샘플 신청, 가격 문의, 메뉴 컨설팅 등 자유롭게 남겨주세요"></textarea>
+    </div>
+    <button class="form-submit" onclick="submitForm()">문의 보내기 →</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">기찬푸드</div>
+      <p>전문 식당 사장님들을 위한<br>프리미엄 소스·육수·완제품 공급<br>전국 1,500+ 납품 메뉴 개발 전문 기업</p>
+      <p style="margin-top:12px">대표자: 양동혁 | 연락처: 010-6424-5466</p>
+    </div>
+    <div class="footer-col">
+      <h4>제품</h4>
+      <ul>
+        <li><a href="#products">탕·국물류 소스</a></li>
+        <li><a href="#products">면류·육수</a></li>
+        <li><a href="#products">완제품·양념</a></li>
+        <li><a href="#products">프리미엄 육류</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>문의</h4>
+      <ul>
+        <li><a href="tel:010-6424-5466">010-6424-5466</a></li>
+        <li><a href="#contact">샘플 신청</a></li>
+        <li><a href="#contact">메뉴 컨설팅</a></li>
+        <li><a href="https://cafe.naver.com/ggomggomfood" target="_blank">네이버 카페</a></li>
+        <li><a href="https://open.kakao.com/o/sDAu5Nti" target="_blank">카카오톡 채팅</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>소셜</h4>
+      <ul>
+        <li><a href="https://cafe.naver.com/ggomggomfood" target="_blank">🟢 네이버 카페 꼼꼼푸드</a></li>
+        <li><a href="https://www.instagram.com/ggom.ggom_food" target="_blank">📸 인스타그램</a></li>
+        <li><a href="https://www.threads.com/@ggom.ggom_food" target="_blank">🧵 스레드</a></li>
+        <li><a href="https://open.kakao.com/o/sDAu5Nti" target="_blank">💬 카카오 오픈채팅</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 기찬푸드. All rights reserved.</span>
+    <span>샘플 신청: <a href="tel:010-6424-5466">010-6424-5466</a></span>
+  </div>
+</footer>
+
+<!-- 제품 문의 모달 -->
+<div class="modal-overlay" id="inquiryModal" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <button class="modal-close-btn" onclick="closeInquiry()">✕</button>
+    <div id="modalForm">
+      <div class="modal-product-tag" id="modalProductTag">제품 문의</div>
+      <div class="modal-title" id="modalProductName">샘플 신청 / 제품 문의</div>
+      <div class="modal-sub">정보를 남겨주시면 기찬푸드에서 바로 연락드립니다.</div>
+      <div class="form-group">
+        <label>성함 *</label>
+        <input type="text" id="mName" placeholder="홍길동">
+      </div>
+      <div class="form-group">
+        <label>연락처 * (문자로 답장 드립니다)</label>
+        <input type="tel" id="mPhone" placeholder="010-0000-0000">
+      </div>
+      <div class="form-group">
+        <label>식당명</label>
+        <input type="text" id="mRest" placeholder="식당 이름 (선택)">
+      </div>
+      <div class="form-group">
+        <label>문의 내용</label>
+        <textarea id="mMsg" style="height:80px;resize:none" placeholder="샘플 수량, 가격, 사용 방법 등 편하게 남겨주세요"></textarea>
+      </div>
+      <button class="form-submit" onclick="submitInquiry()">📨 문의 보내기</button>
+      <p style="text-align:center;font-size:.75rem;color:var(--text-muted);margin-top:12px">
+        또는 직접 전화 <a href="tel:010-6424-5466" style="color:var(--orange);font-weight:700">010-6424-5466</a>
+      </p>
+    </div>
+    <div class="modal-sending" id="modalSending">
+      <div style="font-size:2rem;margin-bottom:12px">⏳</div>
+      <div style="font-weight:600">카카오 오픈채팅 여는 중...</div>
+    </div>
+    <div class="modal-success" id="modalSuccess">
+      <div class="check">💬</div>
+      <div style="font-size:1.1rem;font-weight:700;margin-bottom:10px">카카오 오픈채팅이 열렸습니다!</div>
+      <div style="font-size:.875rem;color:var(--text-sub);margin-bottom:16px">문의 내용이 <strong>자동 복사</strong>됐어요.<br>채팅창에서 <strong>붙여넣기(Ctrl+V / 길게 누르기)</strong> 후<br>전송하면 사장님께 바로 도착합니다!</div>
+      <div id="copiedMsgPreview" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;font-size:.8rem;color:#475569;line-height:1.7;text-align:left;margin-bottom:16px;white-space:pre-wrap;word-break:break-all"></div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="form-submit" onclick="reopenKakao()" style="width:auto;padding:10px 22px;font-size:.85rem">💬 카카오 다시 열기</button>
+        <button class="form-submit" onclick="copyAgain()" style="width:auto;padding:10px 22px;font-size:.85rem;background:linear-gradient(135deg,#03c75a,#02a64e)">📋 내용 다시 복사</button>
+      </div>
+      <button onclick="closeInquiry()" style="margin-top:12px;background:none;border:none;color:var(--text-muted);font-size:.82rem;cursor:pointer;display:block;width:100%;text-align:center">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING CTA -->
+<a href="tel:010-6424-5466" class="float-cta">
+  📞 무료 샘플 신청
+</a>
+
+<script>
+// ── NAV SCROLL ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);
+});
+
+// ── MOBILE MENU ──
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── PRODUCT TABS ──
+function switchTab(id,e){
+  const btn = e ? e.currentTarget : event.currentTarget;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.product-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-'+id).classList.add('active');
+  // hide search results, show tabs
+  document.getElementById('searchPanel').classList.remove('active');
+  document.getElementById('tabRow').style.display='flex';
+  document.querySelectorAll('#panel-'+id+' .reveal').forEach(el=>{
+    el.classList.remove('visible');
+    setTimeout(()=>el.classList.add('visible'),50);
+  });
+}
+
+// ── PRODUCT SEARCH ──
+function searchProducts(q){
+  const panel = document.getElementById('searchPanel');
+  const tabRow = document.getElementById('tabRow');
+  const clearBtn = document.getElementById('searchClear');
+  const allPanels = document.querySelectorAll('.product-panel');
+  q = q.trim();
+  clearBtn.style.display = q ? 'block' : 'none';
+
+  if(!q){
+    panel.classList.remove('active');
+    panel.innerHTML='';
+    allPanels.forEach(p=>p.style.display='');
+    tabRow.style.display='flex';
+    return;
+  }
+
+  allPanels.forEach(p=>p.style.display='none');
+  tabRow.style.display='flex';
+  panel.classList.add('active');
+
+  const cards = document.querySelectorAll('.product-panel .product-card');
+  const matches = [];
+  cards.forEach(card=>{
+    const name = card.querySelector('.product-name')?.textContent||'';
+    const use  = card.querySelector('.product-use')?.textContent||'';
+    if((name+use).toLowerCase().includes(q.toLowerCase())){
+      matches.push(card.cloneNode(true));
+    }
+  });
+
+  if(matches.length===0){
+    panel.innerHTML=`<div class="no-results"><span>🔍</span>"${q}" 검색 결과가 없습니다.<br><small style="margin-top:8px;display:block">다른 키워드로 검색하거나 아래 탭에서 찾아보세요</small></div>`;
+  } else {
+    panel.innerHTML='';
+    matches.forEach(c=>{
+      // re-attach event to cloned sample-btn
+      const btn=c.querySelector('.sample-btn');
+      if(btn) btn.setAttribute('onclick','openInquiry(this)');
+      panel.appendChild(c);
+    });
+  }
+}
+
+function clearSearch(){
+  document.getElementById('searchInput').value='';
+  searchProducts('');
+  document.getElementById('searchInput').focus();
+}
+
+// ── FAQ ACCORDION ──
+function toggleFaq(btn){
+  const item=btn.parentElement;
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+
+// ── INQUIRY MODAL ──
+let currentProduct='';
+function openInquiry(btn){
+  const card = btn.closest('.product-card');
+  const name = card?.querySelector('.product-name')?.textContent||'제품 문의';
+  const price= card?.querySelector('.product-price')?.textContent||'';
+  currentProduct = name;
+  document.getElementById('modalProductTag').textContent='📦 '+name.slice(0,18);
+  document.getElementById('modalProductName').textContent=name+' 샘플 신청 / 문의';
+  document.getElementById('modalForm').style.display='block';
+  document.getElementById('modalSending').style.display='none';
+  document.getElementById('modalSuccess').style.display='none';
+  document.getElementById('mName').value='';
+  document.getElementById('mPhone').value='';
+  document.getElementById('mRest').value='';
+  document.getElementById('mMsg').value='';
+  document.getElementById('inquiryModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeInquiry(){
+  document.getElementById('inquiryModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeModalOutside(e){
+  if(e.target===document.getElementById('inquiryModal')) closeInquiry();
+}
+
+// ── 카카오 오픈채팅 URL ──
+const KAKAO_CHAT = 'https://open.kakao.com/o/sDAu5Nti';
+let lastMsg = '';
+
+function buildMsg(product, name, phone, rest, msg){
+  const now = new Date();
+  const time = `${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+  return [
+    '📦 [기찬푸드 홈페이지 문의]',
+    '─────────────────',
+    `🛒 관심 제품: ${product}`,
+    `👤 성함: ${name}`,
+    `📱 연락처: ${phone}`,
+    `🏪 식당명: ${rest||'(미입력)'}`,
+    `💬 문의: ${msg||'샘플 신청 원합니다.'}`,
+    '─────────────────',
+    `🕐 ${time} 접수`
+  ].join('\n');
+}
+
+// ── SMS 발송 공통 함수 ──
+async function sendSMS(text){
+  const res = await fetch('/api/send-sms', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text })
+  });
+  if(!res.ok){
+    const err = await res.json().catch(()=>({}));
+    throw new Error(err.error || 'SMS 전송 실패');
+  }
+  return res.json();
+}
+
+// ── 모달 문의 → SMS 자동 발송 ──
+async function submitInquiry(){
+  const name  = document.getElementById('mName').value.trim();
+  const phone = document.getElementById('mPhone').value.trim();
+  const rest  = document.getElementById('mRest').value.trim();
+  const msg   = document.getElementById('mMsg').value.trim();
+  if(!name||!phone){ alert('성함과 연락처는 필수입니다.'); return; }
+
+  document.getElementById('modalForm').style.display='none';
+  document.getElementById('modalSending').style.display='block';
+
+  lastMsg = buildMsg(currentProduct, name, phone, rest, msg);
+
+  try {
+    await sendSMS(lastMsg);
+    document.getElementById('modalSending').style.display='none';
+    document.getElementById('modalSuccess').style.display='block';
+    document.getElementById('copiedMsgPreview').textContent=lastMsg;
+  } catch(e) {
+    document.getElementById('modalSending').style.display='none';
+    document.getElementById('modalForm').style.display='block';
+    alert('문의 전송에 실패했습니다. 잠시 후 다시 시도해주세요.\n(' + e.message + ')');
+  }
+}
+
+// ── 하단 폼 → SMS 자동 발송 ──
+async function submitForm(){
+  const name  = document.getElementById('fname').value.trim();
+  const phone = document.getElementById('fphone').value.trim();
+  const rest  = document.getElementById('frest').value.trim();
+  const prod  = document.getElementById('fproduct').value||'일반 문의';
+  const msg   = document.getElementById('fmsg').value.trim();
+  if(!name||!phone){ alert('성함과 연락처를 입력해주세요.'); return; }
+
+  const btn = document.querySelector('#sampleForm .form-submit');
+  btn.textContent='전송 중...'; btn.disabled=true;
+
+  lastMsg = buildMsg(prod, name, phone, rest, msg);
+
+  try {
+    await sendSMS(lastMsg);
+    btn.textContent='✅ 문의가 전송되었습니다!';
+    document.getElementById('fname').value='';
+    document.getElementById('fphone').value='';
+    document.getElementById('frest').value='';
+    document.getElementById('fmsg').value='';
+    setTimeout(()=>{ btn.textContent='문의 보내기 →'; btn.disabled=false; }, 4000);
+  } catch(e) {
+    btn.textContent='전송 실패 — 다시 시도';
+    btn.disabled=false;
+    alert('문의 전송에 실패했습니다. 잠시 후 다시 시도해주세요.\n(' + e.message + ')');
+  }
+}
+
+// COUNTER ANIMATION
+function animateCounters(){
+  document.querySelectorAll('.stat-num').forEach(el=>{
+    const text=el.textContent;
+    const num=parseFloat(text.replace(/[^0-9.]/g,''));
+    if(!num) return;
+    let start=0;const duration=1200;const step=duration/60;
+    const timer=setInterval(()=>{
+      start+=num/(duration/step);
+      if(start>=num){start=num;clearInterval(timer);}
+      el.textContent=text.replace(/[0-9,]+/,Math.floor(start).toLocaleString());
+    },step);
+  });
+}
+const statsObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){animateCounters();statsObs.disconnect();}});
+},{threshold:.5});
+const statsEl=document.querySelector('.stats-section');
+if(statsEl) statsObs.observe(statsEl);
+</script>
+</body>
+</html>
