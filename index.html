@@ -456,6 +456,39 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
 .modal-success{display:none;text-align:center;padding:20px}
 .modal-success .check{font-size:3rem;margin-bottom:12px}
 
+/* ── PRODUCT DETAIL MODAL ── */
+.pd-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px}
+.pd-overlay.open{display:flex}
+.pd-inner{background:#fff;border-radius:20px;max-width:860px;width:100%;max-height:92vh;overflow-y:auto;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.3)}
+.pd-close{position:sticky;top:12px;float:right;margin:12px 12px 0 0;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.08);border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;z-index:10;flex-shrink:0}
+.pd-close:hover{background:rgba(0,0,0,.18)}
+.pd-body{padding:0 24px 32px;clear:both}
+.pd-main-img{width:100%;height:340px;object-fit:cover;border-radius:14px;display:block;background:#f1f5f9}
+.pd-thumbs{display:flex;gap:8px;overflow-x:auto;padding:10px 0 4px;scrollbar-width:thin}
+.pd-thumb{width:72px;height:72px;object-fit:cover;border-radius:8px;cursor:pointer;flex-shrink:0;border:2px solid transparent;opacity:.65;transition:all .2s}
+.pd-thumb.active,.pd-thumb:hover{border-color:var(--orange);opacity:1}
+.pd-title{font-size:1.3rem;font-weight:800;color:var(--text);margin:16px 0 6px}
+.pd-desc{font-size:.9rem;color:var(--text-sub);margin-bottom:20px;line-height:1.6}
+.pd-opts-label{font-size:.75rem;font-weight:700;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.pd-options{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.pd-opt{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;gap:10px}
+.pd-opt:hover,.pd-opt.sel{border-color:var(--orange);background:var(--orange-dim)}
+.pd-opt input{accent-color:var(--orange);flex-shrink:0}
+.pd-opt-name{font-size:.88rem;font-weight:500;color:var(--text);flex:1}
+.pd-opt-price{font-size:.92rem;font-weight:700;color:var(--orange);white-space:nowrap}
+.pd-actions{display:flex;gap:12px}
+.pd-btn-sample{flex:1;padding:14px;background:var(--orange);color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:background .2s}
+.pd-btn-sample:hover{background:var(--orange2)}
+.pd-btn-kakao{padding:14px 18px;background:#fee500;color:#3c1e1e;border:none;border-radius:12px;font-size:.88rem;font-weight:700;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.pd-btn-kakao:hover{opacity:.85}
+.product-card{cursor:pointer}
+@media(max-width:600px){
+  .pd-main-img{height:210px}
+  .pd-title{font-size:1.1rem}
+  .pd-actions{flex-direction:column}
+  .pd-thumb{width:58px;height:58px}
+}
+
 /* ── SCROLL REVEAL ── */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
@@ -493,6 +526,14 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
 </style>
 </head>
 <body>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="pd-overlay" id="pdOverlay" onclick="closePdOutside(event)">
+  <div class="pd-inner" id="pdInner">
+    <button class="pd-close" onclick="closePd()">✕</button>
+    <div class="pd-body" id="pdBody"></div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav id="navbar">
@@ -622,247 +663,247 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
   </div>
 
   <div class="product-panel active" id="panel-tang">
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('galbitang')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/acf54cc0e2335cf4.png" alt="갈비탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">갈비탕 소스 / 해산물 소스 / 멸치진국</div>
       <div class="product-use">갈비탕, 냉면·밀면 온육수, 각종 탕류에 최적</div>
       <div class="product-price">9,000원 ~ 275,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('galbitang')">상세보기</button>
         <span class="popular-star">★★★★★</span>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('dongtae')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/959c6ffda40cce5f.png" alt="동태탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">동태탕 소스</div>
       <div class="product-use">동태탕, 대구탕, 아구탕, 매운탕, 해물탕, 알탕 (지리/얼큰)</div>
       <div class="product-price">27,500원 ~ 275,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('dongtae')">상세보기</button>
         <span class="popular-star">★★★★★</span>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('chueo')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/c0d3f9951589345d.png" alt="추어탕 재료" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">액상</span>
       <div class="product-name">추어탕 재료</div>
       <div class="product-use">추어매운탕, 추어탕, 어탕국수, 어제비, 매운탕 (맑은/얼큰)</div>
       <div class="product-price">15,950원 ~ 287,100원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('chueo')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('hwangtae')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/82d7388fb29a2675.jpg" alt="황태해산물 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">황태 해산물 소스</div>
       <div class="product-use">미역국, 콩나물국밥, 황태해장국, 칼국수</div>
       <div class="product-price">9,000원 ~ 275,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('hwangtae')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('miyeok')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/8be65c947e1746aa.png" alt="미역국 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-new">신제품</span>
       <div class="product-name">미역국 소스</div>
       <div class="product-use">미역국 전용 분말 소스 — 1kg에 125인분</div>
       <div class="product-price">12,100원 ~ 275,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('miyeok')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('gamjatang')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/05a8a15d8aefaeeb.png" alt="감자탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">감자탕 · 뼈다귀해장국 소스</div>
       <div class="product-use">감자탕, 뼈다귀해장국 전용</div>
       <div class="product-price">25,000원 ~ 209,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('gamjatang')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('sundubu')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/4230bf08f7477a75.png" alt="순두부 해장국" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">순두부 해장국</div>
       <div class="product-use">순두부찌개, 해장국, 얼큰탕류</div>
       <div class="product-price">550원 ~ 275,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('sundubu')">상세보기</button>
         <span class="popular-star">★★★★★</span>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('gopchang')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/73b88a8fdb7d60bd.png" alt="곱창전골 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">액상</span>
       <div class="product-name">곱창전골 소스</div>
       <div class="product-use">곱창전골, 닭도리탕 등 얼큰탕용</div>
       <div class="product-price">12,000원 ~ 220,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('gopchang')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('shabu')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/c305e4c0f3d6bdbd.png" alt="샤브샤브 육수" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">샤브샤브 육수</div>
       <div class="product-use">샤브샤브, 칼국수, 만두전골, 굴국밥</div>
       <div class="product-price">20,000원 ~ 308,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('shabu')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('gamjatang_r')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/05a8a15d8aefaeeb.png" alt="뼈해장국" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">완제품</span>
       <div class="product-name">뼈해장국 (900g)</div>
       <div class="product-use">진하고 깊은 뼈해장국 완제품</div>
       <div class="product-price">25,000원 ~ 209,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('gamjatang_r')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('kalguksu')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/0a7fa010fae2474f.jpg" alt="칼국수 육수" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">칼국수 육수</div>
       <div class="product-use">칼국수, 얼큰칼국수, 잔치국수</div>
       <div class="product-price">9,000원 ~ 275,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('kalguksu')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('udong')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/e4303e4a10f615c2.png" alt="우동 육수" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">우동 · 수육국밥 육수</div>
       <div class="product-use">우동, 수육국밥, 얼큰차돌우동국밥</div>
       <div class="product-price">19,000원 ~ 396,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('udong')">상세보기</button>
       </div>
     </div>
   </div>
 
   <div class="product-panel" id="panel-noodle">
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('naengmyeon')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/7c7ff49a55bb23a7.png" alt="냉면육수 원액" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">냉면육수 원액 3종</div>
       <div class="product-use">기찬육수, 사골육수, 동치미육수, 목사발육수</div>
       <div class="product-price">66,000원 ~ 198,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('naengmyeon')">상세보기</button>
         <span class="popular-star">★★★★★</span>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('soba')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/5716082817d36b4f.jpg" alt="소바육수 소바면" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">면류+육수</span>
       <div class="product-name">소바육수 · 소바면</div>
       <div class="product-use">메밀소바면, 함흥냉면, 메밀냉면, 쌀냉면</div>
       <div class="product-price">20,000원 ~ 187,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('soba')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('makguksu')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/5c299c44e7fbef32.png" alt="들기름 막국수" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-new">신제품</span>
       <div class="product-name">들기름 막국수 · 메밀소바 육수</div>
       <div class="product-use">들기름 막국수용 참맛소스, 메밀소바 육수</div>
       <div class="product-price">11,000원 ~ 220,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('makguksu')">상세보기</button>
       </div>
     </div>
   </div>
 
   <div class="product-panel" id="panel-ready">
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('galbiim')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/e01b2f8674765086.png" alt="한돈 돼지갈비찜" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">한돈 매운 돼지갈비찜</div>
       <div class="product-use">국내산 한돈으로 만든 돼지갈비찜</div>
       <div class="product-price">6,270원 ~ 156,750원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('galbiim')">상세보기</button>
         <span class="popular-star">★★★★★</span>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('gamjatang_r')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/166227bad2e04e93.png" alt="1인 감자탕" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">완제품</span>
       <div class="product-name">1인 감자탕 / 감자탕 소스</div>
       <div class="product-use">1인용 감자탕 완제품, 원가 절감에 최적</div>
       <div class="product-price">2,150원 ~ 209,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('gamjatang_r')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('yangnyeomgalbi')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/55f683b360e2e26e.jpg" alt="한돈 양념돼지갈비" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">한돈 양념 돼지갈비 1kg</div>
       <div class="product-use">즉시 조리 가능한 양념 완제품</div>
       <div class="product-price">11,500원 ~ 217,800원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('yangnyeomgalbi')">상세보기</button>
         <span class="popular-star">★★★★★</span>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('jjukkumi')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/2bac862bfe2f1455.png" alt="양념쭈꾸미" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">완제품</span>
       <div class="product-name">양념쭈꾸미 500g</div>
       <div class="product-use">직접 만든 양념 그대로의 맛, 가게 시그니처 메뉴로</div>
       <div class="product-price">9,020원 ~ 356,400원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('jjukkumi')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('doejigukbap')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/166227bad2e04e93.png" alt="돼지국밥 수육" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">완제품</span>
       <div class="product-name">돼지국밥 + 수육</div>
       <div class="product-use">맑은 돼지국밥, 순대국밥 완제품</div>
       <div class="product-price">4,100원 ~ 231,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('doejigukbap')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('wanggalbitang')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/0b2b6892d5d62041.jpg" alt="프리미엄 왕갈비탕" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">프리미엄 왕갈비탕 1kg</div>
       <div class="product-use">바로 사용 가능한 완성형 왕갈비탕</div>
       <div class="product-price">9,130원 ~ 146,080원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('wanggalbitang')">상세보기</button>
         <span class="popular-star">★★★★★</span>
       </div>
     </div>
-    <div class="product-card reveal">
+    <div class="product-card reveal" onclick="openProduct('sunsalgalbitang')">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/cb4985c8a176f76e.png" alt="순살갈비탕" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">완제품</span>
       <div class="product-name">순살갈비탕 원팩</div>
       <div class="product-use">뼈 없이 즐기는 순살 갈비탕 완제품</div>
       <div class="product-price">20,000원 ~ 149,600원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">샘플 신청</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('sunsalgalbitang')">상세보기</button>
       </div>
     </div>
-    <div class="product-card reveal" style="border-color:rgba(249,115,22,.4);background:linear-gradient(135deg,var(--surface),#1a1000)">
+    <div class="product-card reveal" onclick="openProduct('sogalbi')" style="border-color:rgba(249,115,22,.4);background:linear-gradient(135deg,var(--surface),#1a1000)">
       <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/a2c579f68184d933.gif" alt="소갈비살 LA갈비" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge" style="background:rgba(249,115,22,.2);color:var(--orange2)">⭐ 초이스등급</span>
       <div class="product-name">프리미엄 소갈비살 · LA갈비 · 토시살</div>
       <div class="product-use">초이스등급 프리미엄 육류 — 창업·업종변경·추가메뉴에 최적</div>
       <div class="product-price">19,000원 ~ 840,000원 <span>/ 용량별</span></div>
       <div class="product-footer">
-        <button class="sample-btn" onclick="openInquiry(this)">문의하기</button>
+        <button class="sample-btn" onclick="event.stopPropagation();openProduct('sogalbi')">상세보기</button>
         <span class="popular-star">⭐ 특선</span>
       </div>
     </div>
@@ -1399,6 +1440,131 @@ const statsObs=new IntersectionObserver(entries=>{
 },{threshold:.5});
 const statsEl=document.querySelector('.stats-section');
 if(statsEl) statsObs.observe(statsEl);
+
+// ── REVEAL 애니메이션 ──
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
+},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+// ── 제품 상세 모달 ──
+const BASE='https://kichan-food.vercel.app/img-cache/';
+const PRODUCTS={
+  galbitang:{name:'갈비탕 소스 / 해산물 소스 / 멸치진국',desc:'갈비탕, 냉면·밀면 온육수, 각종 탕류에 최적',
+    imgs:['acf54cc0e2335cf4.png','b1f300111b32fe44.png','d042823de87e9714.png','ea2a3e1168e4f219.png','66617b353e5982bd.png','5dab1b3e92bb2d57.png','04bcf7683d51d55c.png','21b795dbe3936762.png','6888103036474084.png','dbac7ea22151f7a7.png','82d7388fb29a2675.jpg','0a7fa010fae2474f.jpg','e2559df3b38a87b9.jpg','638bd3c6d257187d.png','c2dad8bfde111971.png','21ebe44329276732.png'],
+    opts:[{n:'갈비탕소스 (분말) 샘플 180g',p:'9,000원'},{n:'갈비탕소스 (분말) 1kg',p:'28,600원'},{n:'갈비탕소스 (분말) 10kg',p:'275,000원'},{n:'멸치진국소스 샘플 180g',p:'9,000원'},{n:'멸치진국소스 1kg',p:'27,500원'},{n:'멸치진국소스 10kg',p:'275,000원'},{n:'해산물소스 샘플 180g',p:'9,000원'},{n:'해산물소스 1kg',p:'27,500원'},{n:'해산물소스 10kg',p:'275,000원'}]},
+  dongtae:{name:'동태탕 소스',desc:'동태탕, 대구탕, 아구탕, 매운탕, 해물탕, 알탕 (지리/얼큰)',
+    imgs:['959c6ffda40cce5f.png','b917b34ddb414ce6.png','8ce18e97590900ba.png','66599219ea92dc20.png','b8290bacfad65aa2.png','35509c8a60401ce8.png','de5068ae1a5e6bca.png','9c45c4536f95520b.png','c2dad8bfde111971.png','21ebe44329276732.png'],
+    opts:[{n:'동태탕소스 샘플 (소스180g+동태800g+명태곤+대구알)',p:'28,000원'},{n:'동태탕소스 1kg',p:'27,500원'},{n:'동태탕소스 10kg',p:'275,000원'}]},
+  chueo:{name:'추어탕 재료',desc:'추어매운탕, 추어탕, 어탕국수, 어제비, 매운탕 (맑은/얼큰)',
+    imgs:['c0d3f9951589345d.png','f7e142e8b1d8eaa2.png','8557742379abf495.png','1af5b160c4cdc528.png','2ade2ed18e373c89.png','17537c7f1a89fda3.png','52f3afc868f92392.png','1c74609c58753d48.png','6eb4a99da023a6e4.png','870a9d8f408871c6.png','3fbbd192c27c7b43.png','c449967465622a3b.png','9e22ce7484968885.png','a09abdce157648d4.png','2f055c403c8d909a.png','01cadf7526f12858.png','ed45a7ee96e6a9a9.png','c901742a6158c549.png','d22deb8d7f12c71.png','c2dad8bfde111971.png','21ebe44329276732.png'],
+    opts:[{n:'추어 어육 1kg',p:'15,950원'},{n:'추어 어육 1kg×18ea',p:'287,100원'},{n:'추어 어육 3kg',p:'46,200원'},{n:'추어 어육 3kg×6ea',p:'277,200원'},{n:'매운탕소스 2kg',p:'22,000원'},{n:'매운탕소스 20kg',p:'220,000원'},{n:'감자수제비 1kg×20ea',p:'77,000원'},{n:'쌀칼국수 200g×90ea',p:'87,000원'},{n:'샘플 세트',p:'28,000원'}]},
+  hwangtae:{name:'황태 해산물 소스',desc:'미역국, 콩나물국밥, 황태해장국, 칼국수',
+    imgs:['82d7388fb29a2675.jpg','0a7fa010fae2474f.jpg','6057d92e73ce8e1e.jpg','3863faca23cf3fce.jpg','b7cbadb6208dcec0.png','a71c7ff5d2811dad.png'],
+    opts:[{n:'황태해산물소스 샘플 180g',p:'9,000원'},{n:'황태해산물소스 1kg',p:'28,600원'},{n:'황태해산물소스 10kg',p:'275,000원'}]},
+  miyeok:{name:'미역국 소스',desc:'미역국 전용 분말 소스 — 1kg에 125인분',
+    imgs:['8be65c947e1746aa.png','5778897c0e927427.png','ee87eb37e7a865bf.png','f67380e6377a5fae.png','3e4ff086b5f3bb48.png','f16602c996b97c27.png','320266332568f6af.png','96d5ea873bfc6781.jpg','c2dad8bfde111971.png','21ebe44329262732.png','742efd50fe248b.png','cd5ba5c5f9228130.png'],
+    opts:[{n:'미역국소스 샘플 세트',p:'18,000원'},{n:'미역국소스 1kg',p:'27,500원'},{n:'미역국소스 10kg',p:'275,000원'},{n:'들기름',p:'14,300원'},{n:'깨소금',p:'12,100원'}]},
+  gamjatang:{name:'감자탕 · 뼈다귀해장국 소스',desc:'감자탕, 뼈다귀해장국 전용 분말 소스',
+    imgs:['05a8a15d8aefaeeb.png','a0922916567ba8cf.png','bff8be86e97865b3.png','03ba9e0c43261fe5.png','731b5bb5c802bd81.png','30fe218f0f3522cb.png','d125ae48b5712431.png','e8a269e571cbeca9.png','40f9642e4ef4cdb0.png','e6f214066edcfbd3.png','8318167c994d0ce3.png','55dd5a8a23135d5d.png','0707b1bc4a2e0c1c.png'],
+    opts:[{n:'감자탕소스 샘플 1kg',p:'25,000원'},{n:'감자탕소스 10kg',p:'209,000원'},{n:'감자수제비 1kg×20ea',p:'77,000원'}]},
+  sundubu:{name:'순두부 해장국',desc:'순두부찌개, 해장국, 얼큰탕류',
+    imgs:['4230bf08f7477a75.png','3c457535f9e1aef2.png','486b4bec9a1c846b.png','a2148851098e9208.png','380d6c41e83834b0.png','c57969cd6bf22e0b.png','584e9ed20d49a41c.png','3e6def6866964fd1.png','ea1e275f0fa92b07.jpg','09f572f9598291f1.jpg'],
+    opts:[{n:'순두부 해장국',p:'9,000원'},{n:'해물 순두부',p:'11,000원'},{n:'차돌 순두부',p:'11,000원'},{n:'기찬 순두부',p:'12,000원'},{n:'샘플 (짬뽕소스+해산물소스+고추기름)',p:'17,000원'},{n:'짬뽕소스 2kg',p:'22,000원'},{n:'짬뽕소스 20kg',p:'220,000원'},{n:'해산물소스 1kg',p:'27,500원'},{n:'해산물소스 10kg',p:'275,000원'}]},
+  gopchang:{name:'곱창전골 소스',desc:'곱창전골, 닭도리탕 등 얼큰탕용',
+    imgs:['73b88a8fdb7d60bd.png','97b253474424157d.png','a69dbf8f51d5645a.png','f069bec9bce4054c.png'],
+    opts:[{n:'전골소스 샘플 180g+들깨가루',p:'12,000원'},{n:'전골소스 2kg',p:'22,000원'},{n:'전골소스 20kg',p:'220,000원'}]},
+  shabu:{name:'샤브샤브 육수',desc:'샤브샤브, 칼국수, 만두전골, 굴국밥',
+    imgs:['c305e4c0f3d6bdbd.png','3857818104a8fa18.png','694140d34c28c778.png','a67f65e0926f238c.png','feb3abe4dd6c08ab.png','871ece09e884cc0b.png','8bc0c069def959a3.png','c2dad8bfde111971.png','21ebe44329276732.png'],
+    opts:[{n:'샤브 육수용 소스 1kg',p:'30,800원'},{n:'샤브 육수용 소스 10kg',p:'308,000원'},{n:'전골소스 2kg',p:'22,000원'},{n:'전골소스 20kg',p:'220,000원'},{n:'맛소스 찍어먹는소스 1박스',p:'41,800원'},{n:'쌀칼국수 1박스 90ea',p:'87,000원'},{n:'샘플 세트',p:'20,000원'}]},
+  kalguksu:{name:'칼국수 육수',desc:'칼국수, 얼큰칼국수, 잔치국수',
+    imgs:['0a7fa010fae2474f.jpg','28d20e2a3d4000e5.png','8ff788bb8804669a.png','26ce2e5f14979996.jpg','24c1d80cf10fdc45.jpg','aacb65cecffeec08.png','392c89adb5b9335e.png','c2dad8bfde111971.png','21ebe44329274732.png'],
+    opts:[{n:'조개 칼국수 1인분',p:'9,000원'},{n:'얼큰 칼국수 1인분',p:'9,000원'},{n:'샘플세트',p:'20,000원'},{n:'조개만능소스 1kg',p:'27,500원'},{n:'조개만능소스 10kg',p:'275,000원'},{n:'전골소스 2kg',p:'22,000원'},{n:'전골소스 20kg',p:'220,000원'},{n:'쌀칼국수면 1박스 90ea',p:'95,700원'}]},
+  udong:{name:'우동 · 수육국밥 육수',desc:'우동, 수육국밥, 얼큰차돌우동국밥',
+    imgs:['e4303e4a10f615c2.png','0e64677b7dea7363.png','f707be6a34c1fcd3.png','21cb8751f3dfc2e9.png','00aad3c0f15d140c.png','27e75ec52cb1ee63.png','1d6d44bbccc3db15.png','ff56edeeae4529f4.png','7cecc248768cf0d8.png','cbf3962f4d5024a0.png','a83e317541471d73.png','82e72a207e7ac96b.png','4eb0bfead4fa6a01.png','35b2cae705360b7d.png','0906b6783747dd0d.png','804947a7203425cc.png','78c38248ca922bf8.png','06f784baf0a8bdc5.png','80f5a03480d7e818.png','e079595083d8fee4.png','10814529a26b6109.png','a28957553cada654.png','69958b6fbfdacbf5.png','beb225f4827b1b60.png','710ff44080d5be0f.png','9226334c27646fd7.png','b338ee7db45dca38.png','41f3d6a18b374d0e.png','130663ac08967be6.png','e15b2c4bc85518d5.png','2a4b12146651b88c.png','c2dad8bfde111971.png','21ebe44329286732.png'],
+    opts:[{n:'샘플 (맑은국밥소스+전골소스)',p:'19,000원'},{n:'맑은국밥소스 1kg',p:'30,800원'},{n:'맑은국밥소스 10kg',p:'308,000원'},{n:'찌개전골소스 2kg',p:'22,000원'},{n:'찌개전골소스 20kg',p:'220,000원'},{n:'삼겹전지수육 1kg',p:'22,000원'},{n:'삼겹전지수육 18kg',p:'396,000원'}]},
+  naengmyeon:{name:'냉면육수 원액 3종',desc:'기찬육수, 사골육수, 동치미육수, 목사발육수',
+    imgs:['7c7ff49a55bb23a7.png','44fd2cf0260146ad.jpg','81a947ecd2ce6a36.png','1ebae80a1d75af77.png','61a120c24f221063.png','12adafe9121e08a3.png','e2b913a98337b7fe.png','97c02bc930d8d825.jpg','21455b60c1b87b15.jpg','b90c1626b309fe80.jpg','a7d4349d0aa35029.png','15eb8900a0220e1c.jpg','cdec8f4382275cff.png','31df41ce48fb7e94.png','fcbb5cc7e7ffbfda.png'],
+    opts:[{n:'프리미엄 냉면육수 20kg',p:'154,000원'},{n:'사골 냉면육수 20kg',p:'198,000원'},{n:'동치미 냉면육수 20kg',p:'198,000원'},{n:'기찬 비빔장 2kg×9ea',p:'176,000원'},{n:'만능 비빔장 2kg×10ea',p:'154,000원'},{n:'함흥 냉면사리 2kg×9ea',p:'75,000원'},{n:'메밀 냉면사리 2kg×10ea',p:'66,000원'},{n:'흑미 쌀냉면',p:'87,000원'}]},
+  soba:{name:'소바육수 · 소바면',desc:'메밀소바면, 함흥냉면, 메밀냉면, 쌀냉면',
+    imgs:['5716082817d36b4f.jpg','36c51632bed8cd4e.jpg','49a44a2b087399cc.jpg','89723db8ed408a12.jpg','36e6bf53d9fc531e.jpg','99de7fc9884106fa.png','a52b86ed4828d4f1.png','82c12f3258ff8b7b.png','c16f77444f139d1e.png','7cd7633d5aeed627.png','bb6d9f4f3885401b.jpg'],
+    opts:[{n:'샘플 (생메밀면+쌀메밀면+메밀소바육수+생와사비+김가루)',p:'20,000원'},{n:'생메밀면 200g×75ea',p:'88,000원'},{n:'쌀메밀면 200g×90ea',p:'87,000원'},{n:'메밀소바육수 2kg×10ea',p:'187,000원'}]},
+  makguksu:{name:'들기름 막국수 · 메밀소바 육수',desc:'들기름 막국수용 참맛소스, 메밀소바 육수',
+    imgs:['5c299c44e7fbef32.png','014e6f741592d27f.png','bcadabb798a09c2f.png','14d698e7f8c63299.png','4bf59d07ce75791a.jpg','0ce156371c089f15.png','0760a823b178ca54.png','5e51541cc6dec304.png','8ffea46569d35b15.png','1e8943074aaa610d.jpg','6050cad1e65293db.png','36cfe6ea0fbf3c8a.png','e82522cdb3650a39.png','04466aea255a131e.png','3f330fef85d29cd1.png','253de06cd452134d.png','b63f751fa2f3b078.png','ea78f3e86931f205.jpg','f071c3e83f3270c7.jpg'],
+    opts:[{n:'샘플 (생메밀면×5ea+참맛소스+들기름+고운김가루+깨소금+들깨가루)',p:'22,000원'},{n:'메밀막국수면 200g×75ea',p:'88,000원'},{n:'참맛소스 2kg',p:'22,000원'},{n:'참맛소스 20kg',p:'220,000원'},{n:'들기름 1병',p:'11,000원'},{n:'들기름 1박스 15병',p:'165,000원'},{n:'깨소금 1kg',p:'11,000원'},{n:'깨소금 10kg',p:'110,000원'}]},
+  galbiim:{name:'한돈 매운 돼지갈비찜',desc:'국내산 한돈으로 만든 매운 돼지갈비찜 완제품',
+    imgs:['e01b2f8674765086.png','4966b40a514f5800.png','720a2583ba4bf16d.png','2f00197a8a55f37a.png'],
+    opts:[{n:'한돈 뚝배기갈비찜 1인분 330g×1팩',p:'6,270원'},{n:'한돈 매운갈비찜 小',p:'12,540원'},{n:'한돈 매운갈비찜 中',p:'18,810원'},{n:'한돈 매운갈비찜 大',p:'25,080원'},{n:'샘플세트 (매운갈비찜+돌돌이당면+밀 떡볶이떡)',p:'20,000원'},{n:'국내산 매운 돼지갈비찜 500g×25팩',p:'156,750원'}]},
+  gamjatang_r:{name:'1인 감자탕 / 감자탕 소스',desc:'1인용 감자탕 완제품, 원가 절감에 최적',
+    imgs:['05a8a15d8aefaeeb.png','a0922916567ba8cf.png','bff8be86e97865b3.png','03ba9e0c43261fe5.png','731b5bb5c802bd81.png','30fe218f0f3522cb.png','d125ae48b5712431.png','e8a269e571cbeca9.png','40f9642e4ef4cdb0.png','e6f214066edcfbd3.png','8318167c994d0ce3.png','55dd5a8a23135d5d.png','0707b1bc4a2e0c1c.png','cc26ab71567ff5d1.png','b0f622f4977bebff.png','dc451f96eaeccd98.png','d0ecc5b23b9885fd.png','76c3057490a4b3fe.jpg'],
+    opts:[{n:'1인감자탕 완제품 900g×1팩',p:'5,940원'},{n:'감자탕 小 완제품 900g×2팩',p:'11,880원'},{n:'감자탕 中 완제품 900g×3팩',p:'17,820원'},{n:'감자탕 大 완제품 900g×4팩',p:'23,760원'},{n:'뚝배기감자탕 샘플 900g×2팩+들깨가루',p:'17,000원'},{n:'뚝배기감자탕 정규발주 900g×16팩',p:'86,400원'},{n:'감자탕소스 정규발주 10kg',p:'209,000원'},{n:'감자수제비 정규발주 1kg×20ea',p:'77,000원'}]},
+  yangnyeomgalbi:{name:'한돈 양념 돼지갈비 1kg',desc:'즉시 조리 가능한 양념 완제품',
+    imgs:['55f683b360e2e26e.jpg','c0144cb5561eeabf.jpg','719f274fba1b9f65.jpg','1e689a4ecbeafc70.jpg','d9b9bf0a62c2d976.jpg','8ec5acbdcb885cb9.jpg','057e5fa10ea446e1.jpg','a0039d0918aa135a.jpg','19650f2435fb461a.jpg','289a39889b81d6a4.png','951b7ed0b5ef2b1b.png','1d3543525c12f0e4.png','36cbcb46159deebb.png','96b986c924c86588.png','0407ec0e1fb51a5d.png','a95eef897b234b61.png','6bbc3352b330dcc0.png','e29704a18d63c1a9.png','875ec8939d66c1d7.png','dcaa2968302796f1.png'],
+    opts:[{n:'한돈 양념돼지갈비 1kg (갈비600g/양념400g)',p:'12,100원'},{n:'한돈 양념돼지갈비 샘플 1kg×2팩+찍어먹는소스',p:'29,000원'},{n:'한돈 양념돼지갈비 1kg×18팩',p:'217,800원'},{n:'기찬 맛소스 1박스',p:'41,800원'},{n:'돼지갈비 양념 1박스',p:'53,900원'}]},
+  jjukkumi:{name:'양념쭈꾸미 500g',desc:'직접 만든 양념 그대로의 맛, 가게 시그니처 메뉴로',
+    imgs:['2bac862bfe2f1455.png','55a03f0c01bce9a5.png','80762f319afe2d43.png','151135c040a060df.png','4cc3a9f3946c6b61.png','4f9dfa1015e191d1.png','e0a2d34f42204bc4.png','816f01e0ade8f9ab.png','66e34778eaf3cf8e.jpg','b0a6bcfa14b910a9.jpg','b5dbb392854d6683.jpg','2dff56fc254f9b68.jpg','acdf7a6e7b8fce74.jpg','65b8c6881e9ec956.png','bc2b6ca421f62a57.png','aa91489de822a536.png','8caab194717336c5.png','8b1387ab81d70a13.png','5b8b79b5d5fa0fa7.png','ef7fded7a239b012.png','f9d3777ede7a7d1b.png','18f77968da3a20d5.png','48ce40f621b01104.png'],
+    opts:[{n:'양념 쭈꾸미 500g 샘플 2팩',p:'19,800원'},{n:'양념 쭈꾸미 500g',p:'9,020원'},{n:'양념 쭈꾸미 20kg',p:'356,400원'},{n:'조개만능소스 1kg',p:'27,500원'},{n:'조개만능소스 10kg',p:'275,000원'}]},
+  doejigukbap:{name:'돼지국밥 + 수육',desc:'맑은 돼지국밥, 순대국밥 완제품',
+    imgs:['166227bad2e04e93.png','89e72e6df588b34f.png','3797cf239c2bf32f.png','d3cc65a59fc94d39.png','dc0ee070386787a0.png','2990a9f3813bb432.jpg','c0f44e3c9c17b90e.jpg'],
+    opts:[{n:'돼지국밥 1팩',p:'4,100원'},{n:'돼지국밥 1박스 30팩',p:'123,000원'},{n:'순대국밥 1팩',p:'4,200원'},{n:'순대국밥 1박스 30팩',p:'126,000원'},{n:'내장국밥 1팩',p:'4,100원'},{n:'내장국밥 1박스 30팩',p:'123,000원'},{n:'모듬국밥 1팩',p:'4,500원'},{n:'모듬국밥 1박스 30팩',p:'135,000원'},{n:'전골소스 2kg',p:'22,000원'},{n:'전골소스 20kg',p:'220,000원'},{n:'돼지수육 10kg',p:'231,000원'},{n:'샘플 (국밥4종+전골소스+당면)',p:'25,000원'}]},
+  wanggalbitang:{name:'프리미엄 왕갈비탕 1kg',desc:'바로 사용 가능한 완성형 왕갈비탕',
+    imgs:['0b2b6892d5d62041.jpg','867d0acc0ab56fac.jpg','5899317fa3463ed1.jpg','1bdea5d170260573.jpg','44ec5085cb91200a.jpg','9c6a8d164a48b123.png','31a4cc2d0ef483c6.png','327b4c6227a5013a.png','4d0f902d83b69923.png','7f25a31cb9c4d3e8.png','1dffaf06d355aec2.png','9d0d753da92a223a.png','2ce6dd5ec9f12320.png','8bc0c069def959a3.png'],
+    opts:[{n:'꼼꼼 왕갈비탕 1kg',p:'9,130원'},{n:'꼼꼼 왕갈비탕 샘플 2팩+맛소스',p:'22,000원'},{n:'꼼꼼 왕갈비탕 1kg×16팩',p:'146,080원'},{n:'꼼꼼 맛소스 8kg×2ea',p:'41,800원'}]},
+  sunsalgalbitang:{name:'순살갈비탕 원팩',desc:'뼈 없이 즐기는 순살 갈비탕 완제품',
+    imgs:['cb4985c8a176f76e.png','e46c99278db05b1f.png','5899317fa3463ed1.jpg','25973b5a362b9f8a.jpg','8bc0c069def959a3.png','8240139ebc4f2132.png','b0ae8aae2274e890.png','c854154f1d953daf.png','ea1e275f0fa92b07.jpg','09f572f9598291f1.jpg'],
+    opts:[{n:'기찬 순살갈비탕 샘플 700g×2팩',p:'20,000원'},{n:'기찬 순살갈비탕 700g×20팩',p:'149,600원'},{n:'기찬 맛소스 5kg×3개',p:'39,000원'}]},
+  sogalbi:{name:'프리미엄 소갈비살 · LA갈비 · 토시살',desc:'초이스등급 프리미엄 육류 — 창업·업종변경·추가메뉴에 최적',
+    imgs:['a2c579f68184d933.gif','09b3ca884da9f0ca.gif','9f1300d5b2108357.jpg','52c23209f81a1799.png','f20cb05d5343928b.png','897a197ad5d636a8.png','e8e3f7916fc4dacb.png','6229682f5497eae5.png','e58660499faefa43.png','038460b4000def2f.png','52c08bb94503259d.jpg','8bc0c069def959a3.png','a09cb0e1b450bad0.png','de90f2e93e5763bd.png','96d39d7895cd36d3.png','f47377b01a8c7f61.png','8761682f3f3059b3.png','adb3fac2a4f678b8.png','610c937c323808a4.png','00f1c86068e88654.png','01df90eccca169f7.png','c8967805a3763679.png','b7152cf22f2262e9.png','c42c18350168321b.png','be93388eabb55e5d.png'],
+    opts:[{n:'프리미엄 갈비살 샘플 500g',p:'19,000원'},{n:'벌집 갈비살 샘플 500g',p:'20,000원'},{n:'토시살 샘플 500g',p:'21,000원'},{n:'프리미엄 갈비살 20kg (500g×40개)',p:'760,000원'},{n:'벌집 갈비살 20kg (500g×40개)',p:'800,000원'},{n:'토시살 20kg (500g×40개)',p:'840,000원'},{n:'맛소스 1박스 (8kg×2개)',p:'41,800원'}]}
+};
+
+function openProduct(id){
+  const p=PRODUCTS[id]; if(!p) return;
+  const imgs=p.imgs.map((f,i)=>`<img src="${BASE}${f}" class="pd-thumb${i===0?' active':''}" onclick="setPdImg(this,'${BASE}${f}')" loading="lazy" onerror="this.style.display='none'">`).join('');
+  const opts=p.opts.map((o,i)=>`<label class="pd-opt${i===0?' sel':''}"><input type="radio" name="pdopt" ${i===0?'checked':''}><span class="pd-opt-name">${o.n}</span><span class="pd-opt-price">${o.p}</span></label>`).join('');
+  document.getElementById('pdBody').innerHTML=`
+    <div class="pd-gallery">
+      <img src="${BASE}${p.imgs[0]}" class="pd-main-img" id="pdMainImg" onerror="this.style.background='#f1f5f9'">
+      <div class="pd-thumbs">${imgs}</div>
+    </div>
+    <div class="pd-title">${p.name}</div>
+    <div class="pd-desc">${p.desc}</div>
+    <div class="pd-opts-label">옵션 선택</div>
+    <div class="pd-options">${opts}</div>
+    <div class="pd-actions">
+      <button class="pd-btn-sample" onclick="pdSampleRequest('${p.name}')">📦 샘플 / 문의 신청</button>
+      <button class="pd-btn-kakao" onclick="window.open('https://open.kakao.com/o/sDAu5Nti','_blank')">💬 카카오</button>
+    </div>`;
+  document.querySelectorAll('.pd-opt').forEach(el=>{
+    el.addEventListener('click',function(){document.querySelectorAll('.pd-opt').forEach(e=>e.classList.remove('sel'));this.classList.add('sel');this.querySelector('input').checked=true;});
+  });
+  document.getElementById('pdOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function setPdImg(thumb,src){
+  document.getElementById('pdMainImg').src=src;
+  document.querySelectorAll('.pd-thumb').forEach(t=>t.classList.remove('active'));
+  thumb.classList.add('active');
+}
+function closePd(){
+  document.getElementById('pdOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closePdOutside(e){if(e.target===document.getElementById('pdOverlay'))closePd();}
+function pdSampleRequest(name){
+  closePd();
+  currentProduct=name;
+  document.getElementById('mProductName').textContent=name;
+  document.getElementById('mName').value='';
+  document.getElementById('mPhone').value='';
+  document.getElementById('mRest').value='';
+  document.getElementById('mMsg').value='';
+  document.getElementById('modalForm').style.display='block';
+  document.getElementById('modalSending').style.display='none';
+  document.getElementById('modalSuccess').style.display='none';
+  document.getElementById('inquiryModal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
 
 // ── REVEAL 애니메이션 ──
 const revealObs=new IntersectionObserver(entries=>{
