@@ -1519,40 +1519,9 @@ const PRODUCTS={
 };
 
 function openProduct(id){
-  const p=PRODUCTS[id]; if(!p) return;
-  const imgs=p.imgs.map((f,i)=>`<img src="${BASE}${f}" class="pd-thumb${i===0?' active':''}" onclick="setPdImg(this,'${BASE}${f}')" loading="lazy" onerror="this.style.display='none'">`).join('');
-  const opts=p.opts.map((o,i)=>`<label class="pd-opt${i===0?' sel':''}"><input type="radio" name="pdopt" ${i===0?'checked':''}><span class="pd-opt-name">${o.n}</span><span class="pd-opt-price">${o.p}</span></label>`).join('');
-  document.getElementById('pdBody').innerHTML=`
-    <div class="pd-gallery">
-      <img src="${BASE}${p.imgs[0]}" class="pd-main-img" id="pdMainImg" onerror="this.style.background='#f1f5f9'">
-      <div class="pd-thumbs">${imgs}</div>
-    </div>
-    <div class="pd-title">${p.name}</div>
-    <div class="pd-desc">${p.desc}</div>
-    <div class="pd-opts-label">옵션 선택</div>
-    <div class="pd-options">${opts}</div>
-    <div class="pd-actions">
-      <button class="pd-btn-sample" onclick="pdSampleRequest('${p.name}')">📦 샘플 / 문의 신청</button>
-      <button class="pd-btn-kakao" onclick="window.open('https://open.kakao.com/o/sDAu5Nti','_blank')">💬 카카오</button>
-    </div>`;
-  document.querySelectorAll('.pd-opt').forEach(el=>{
-    el.addEventListener('click',function(){document.querySelectorAll('.pd-opt').forEach(e=>e.classList.remove('sel'));this.classList.add('sel');this.querySelector('input').checked=true;});
-  });
-  document.getElementById('pdOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+  window.location.href='/product.html?id='+id;
 }
-function setPdImg(thumb,src){
-  document.getElementById('pdMainImg').src=src;
-  document.querySelectorAll('.pd-thumb').forEach(t=>t.classList.remove('active'));
-  thumb.classList.add('active');
-}
-function closePd(){
-  document.getElementById('pdOverlay').classList.remove('open');
-  document.body.style.overflow='';
-}
-function closePdOutside(e){if(e.target===document.getElementById('pdOverlay'))closePd();}
 function pdSampleRequest(name){
-  closePd();
   currentProduct=name;
   document.getElementById('mProductName').textContent=name;
   document.getElementById('mName').value='';

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기찬푸드 — 제품 상세</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;--bg2:#f8fafc;--surface:#ffffff;--surface2:#f1f5f9;--surface3:#e2e8f0;
+  --orange:#ea580c;--orange2:#f97316;--orange-dim:rgba(234,88,12,.1);
+  --teal:#0d9488;--text:#1e293b;--text-sub:#475569;--text-muted:#94a3b8;
+  --border:rgba(0,0,0,.09);--radius:16px;--radius-sm:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:3px}
+img{display:block;max-width:100%}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;height:64px;
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Noto Serif KR',serif;font-weight:700;font-size:1.05rem;text-decoration:none;color:var(--text)}
+.nav-logo-icon{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--orange),#dc2626);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:900;color:white;font-family:'Noto Serif KR',serif}
+.back-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:50px;
+  background:var(--surface2);border:none;cursor:pointer;
+  font-family:inherit;font-size:.85rem;color:var(--text-sub);
+  transition:background .2s;
+}
+.back-btn:hover{background:var(--surface3)}
+
+/* LAYOUT */
+.page{max-width:960px;margin:0 auto;padding:40px 5% 80px}
+
+/* GALLERY */
+.gallery{margin-bottom:32px}
+.main-img-wrap{width:100%;aspect-ratio:4/3;max-height:420px;background:var(--surface2);border-radius:var(--radius);overflow:hidden;margin-bottom:12px}
+.main-img{width:100%;height:100%;object-fit:cover;transition:opacity .2s}
+.thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.thumb{width:72px;height:72px;flex-shrink:0;border-radius:8px;object-fit:cover;cursor:pointer;border:2.5px solid transparent;opacity:.6;transition:all .2s}
+.thumb.active,.thumb:hover{border-color:var(--orange);opacity:1}
+
+/* INFO */
+.product-tag{display:inline-block;background:var(--orange-dim);color:var(--orange);font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:50px;margin-bottom:10px}
+.product-title{font-family:'Noto Serif KR',serif;font-size:1.7rem;font-weight:900;color:var(--text);margin-bottom:8px;line-height:1.3}
+.product-desc{font-size:.95rem;color:var(--text-sub);margin-bottom:28px;line-height:1.7}
+
+/* OPTIONS */
+.opts-label{font-size:.75rem;font-weight:700;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.options{display:flex;flex-direction:column;gap:8px;margin-bottom:28px}
+.opt-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  cursor:pointer;transition:all .2s;gap:12px;
+}
+.opt-row:hover,.opt-row.sel{border-color:var(--orange);background:var(--orange-dim)}
+.opt-row input{accent-color:var(--orange);flex-shrink:0;width:16px;height:16px}
+.opt-name{font-size:.9rem;font-weight:500;color:var(--text);flex:1}
+.opt-price{font-size:.95rem;font-weight:700;color:var(--orange);white-space:nowrap}
+
+/* ACTIONS */
+.actions{display:flex;gap:12px;margin-bottom:48px}
+.btn-sample{
+  flex:1;padding:16px;
+  background:linear-gradient(135deg,var(--orange),#dc2626);
+  color:#fff;border:none;border-radius:var(--radius-sm);
+  font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-sample:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(234,88,12,.4)}
+.btn-kakao{
+  padding:16px 20px;background:#fee500;color:#3c1e1e;
+  border:none;border-radius:var(--radius-sm);
+  font-size:.9rem;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:opacity .2s;white-space:nowrap;
+}
+.btn-kakao:hover{opacity:.85}
+
+/* ORDER FORM */
+.order-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:32px}
+.order-title{font-size:1.1rem;font-weight:700;margin-bottom:20px;color:var(--text)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:.8rem;font-weight:600;color:var(--text-sub)}
+.form-input{
+  padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  font-family:inherit;font-size:.9rem;color:var(--text);background:#fff;
+  transition:border-color .2s;
+}
+.form-input:focus{outline:none;border-color:var(--orange)}
+.form-submit{
+  width:100%;padding:15px;margin-top:8px;
+  background:var(--orange);color:#fff;border:none;border-radius:var(--radius-sm);
+  font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:background .2s;
+}
+.form-submit:hover{background:var(--orange2)}
+.form-submit:disabled{background:#ccc;cursor:not-allowed}
+.form-msg{text-align:center;padding:14px;font-size:.9rem;font-weight:500;display:none}
+.form-msg.sending{color:var(--text-muted)}
+.form-msg.success{color:#16a34a}
+
+/* NOTICE */
+.notice{background:var(--surface2);border-radius:var(--radius-sm);padding:16px 20px;font-size:.85rem;color:var(--text-sub);line-height:1.7}
+.notice strong{color:var(--text)}
+
+@media(max-width:600px){
+  .product-title{font-size:1.3rem}
+  .main-img-wrap{aspect-ratio:1/1}
+  .form-row{grid-template-columns:1fr}
+  .actions{flex-direction:column}
+  .btn-kakao{text-align:center}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="/">
+    <div class="nav-logo-icon">기찬</div>
+    기찬푸드
+  </a>
+  <button class="back-btn" onclick="history.back()">← 제품 목록</button>
+</nav>
+
+<div class="page">
+  <!-- 갤러리 -->
+  <div class="gallery">
+    <div class="main-img-wrap">
+      <img class="main-img" id="mainImg" src="" alt="제품 이미지">
+    </div>
+    <div class="thumbs" id="thumbs"></div>
+  </div>
+
+  <!-- 제품 정보 -->
+  <div class="product-tag">기찬푸드 B2B 제품</div>
+  <div class="product-title" id="productTitle"></div>
+  <div class="product-desc" id="productDesc"></div>
+
+  <!-- 옵션 선택 -->
+  <div class="opts-label">옵션 선택</div>
+  <div class="options" id="options"></div>
+
+  <!-- 바로 신청 / 카카오 -->
+  <div class="actions">
+    <button class="btn-sample" onclick="scrollToForm()">📦 샘플 · 주문 신청</button>
+    <button class="btn-kakao" onclick="window.open('https://open.kakao.com/o/sDAu5Nti','_blank')">💬 카카오 문의</button>
+  </div>
+
+  <!-- 주문 폼 -->
+  <div class="order-section" id="orderSection">
+    <div class="order-title">📋 샘플 / 주문 신청서</div>
+    <div id="orderForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">성함 *</label>
+          <input class="form-input" id="oName" placeholder="홍길동">
+        </div>
+        <div class="form-group">
+          <label class="form-label">연락처 *</label>
+          <input class="form-input" id="oPhone" placeholder="010-0000-0000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label class="form-label">식당명</label>
+          <input class="form-input" id="oRest" placeholder="(선택) 운영 중인 식당명">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label class="form-label">선택 옵션</label>
+          <input class="form-input" id="oOption" readonly placeholder="위에서 옵션을 선택해주세요">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label class="form-label">추가 문의사항</label>
+          <textarea class="form-input" id="oMsg" rows="3" placeholder="수량, 배송지, 기타 문의 등"></textarea>
+        </div>
+      </div>
+      <button class="form-submit" id="oSubmit" onclick="submitOrder()">신청하기</button>
+    </div>
+    <div class="form-msg sending" id="oSending">전송 중입니다...</div>
+    <div class="form-msg success" id="oSuccess">✅ 신청이 완료되었습니다! 담당자가 확인 후 연락드립니다.</div>
+  </div>
+
+  <div class="notice">
+    <strong>안내</strong><br>
+    · 샘플 신청 후 담당자 확인 시 연락드립니다.<br>
+    · B2B 대량 주문 / 납품 문의는 카카오 채널을 이용해주세요.<br>
+    · 운영시간 09:00 ~ 18:00 (평일 기준)
+  </div>
+</div>
+
+<script>
+const BASE='https://kichan-food.vercel.app/img-cache/';
+const PRODUCTS={
+  galbitang:{name:'갈비탕 소스 / 해산물 소스 / 멸치진국',desc:'갈비탕, 냉면·밀면 온육수, 각종 탕류에 최적',
+    imgs:['acf54cc0e2335cf4.png','b1f300111b32fe44.png','d042823de87e9714.png','ea2a3e1168e4f219.png','66617b353e5982bd.png','5dab1b3e92bb2d57.png','04bcf7683d51d55c.png','21b795dbe3936762.png','6888103036474084.png','dbac7ea22151f7a7.png','82d7388fb29a2675.jpg','0a7fa010fae2474f.jpg','e2559df3b38a87b9.jpg','638bd3c6d257187d.png','c2dad8bfde111971.png','21ebe44329276732.png'],
+    opts:[{n:'갈비탕소스 (분말) 샘플 180g',p:'9,000원'},{n:'갈비탕소스 (분말) 1kg',p:'28,600원'},{n:'갈비탕소스 (분말) 10kg',p:'275,000원'},{n:'멸치진국소스 샘플 180g',p:'9,000원'},{n:'멸치진국소스 1kg',p:'27,500원'},{n:'멸치진국소스 10kg',p:'275,000원'},{n:'해산물소스 샘플 180g',p:'9,000원'},{n:'해산물소스 1kg',p:'27,500원'},{n:'해산물소스 10kg',p:'275,000원'}]},
+  dongtae:{name:'동태탕 소스',desc:'동태탕, 대구탕, 아구탕, 매운탕, 해물탕, 알탕 (지리/얼큰)',
+    imgs:['959c6ffda40cce5f.png','b917b34ddb414ce6.png','8ce18e97590900ba.png','66599219ea92dc20.png','b8290bacfad65aa2.png','35509c8a60401ce8.png','de5068ae1a5e6bca.png','9c45c4536f95520b.png','c2dad8bfde111971.png','21ebe44329276732.png'],
+    opts:[{n:'동태탕소스 샘플 (소스180g+동태800g+명태곤+대구알)',p:'28,000원'},{n:'동태탕소스 1kg',p:'27,500원'},{n:'동태탕소스 10kg',p:'275,000원'}]},
+  chueo:{name:'추어탕 재료',desc:'추어매운탕, 추어탕, 어탕국수, 어제비, 매운탕 (맑은/얼큰)',
+    imgs:['c0d3f9951589345d.png','f7e142e8b1d8eaa2.png','8557742379abf495.png','1af5b160c4cdc528.png','2ade2ed18e373c89.png','17537c7f1a89fda3.png','52f3afc868f92392.png','1c74609c58753d48.png','6eb4a99da023a6e4.png','870a9d8f408871c6.png','3fbbd192c27c7b43.png','c449967465622a3b.png','9e22ce7484968885.png','a09abdce157648d4.png','2f055c403c8d909a.png','01cadf7526f12858.png','ed45a7ee96e6a9a9.png','c901742a6158c549.png','d22deb8d7f12c71.png','c2dad8bfde111971.png','21ebe44329276732.png'],
+    opts:[{n:'추어 어육 1kg',p:'15,950원'},{n:'추어 어육 1kg×18ea',p:'287,100원'},{n:'추어 어육 3kg',p:'46,200원'},{n:'추어 어육 3kg×6ea',p:'277,200원'},{n:'매운탕소스 2kg',p:'22,000원'},{n:'매운탕소스 20kg',p:'220,000원'},{n:'감자수제비 1kg×20ea',p:'77,000원'},{n:'쌀칼국수 200g×90ea',p:'87,000원'},{n:'샘플 세트',p:'28,000원'}]},
+  hwangtae:{name:'황태 해산물 소스',desc:'미역국, 콩나물국밥, 황태해장국, 칼국수',
+    imgs:['82d7388fb29a2675.jpg','0a7fa010fae2474f.jpg','6057d92e73ce8e1e.jpg','3863faca23cf3fce.jpg','b7cbadb6208dcec0.png','a71c7ff5d2811dad.png'],
+    opts:[{n:'황태해산물소스 샘플 180g',p:'9,000원'},{n:'황태해산물소스 1kg',p:'28,600원'},{n:'황태해산물소스 10kg',p:'275,000원'}]},
+  miyeok:{name:'미역국 소스',desc:'미역국 전용 분말 소스 — 1kg에 125인분',
+    imgs:['8be65c947e1746aa.png','5778897c0e927427.png','ee87eb37e7a865bf.png','f67380e6377a5fae.png','3e4ff086b5f3bb48.png','f16602c996b97c27.png','320266332568f6af.png','96d5ea873bfc6781.jpg','c2dad8bfde111971.png','21ebe44329262732.png','742efd50fe248b.png','cd5ba5c5f9228130.png'],
+    opts:[{n:'미역국소스 샘플 세트',p:'18,000원'},{n:'미역국소스 1kg',p:'27,500원'},{n:'미역국소스 10kg',p:'275,000원'},{n:'들기름',p:'14,300원'},{n:'깨소금',p:'12,100원'}]},
+  gamjatang:{name:'감자탕 · 뼈다귀해장국 소스',desc:'감자탕, 뼈다귀해장국 전용 분말 소스',
+    imgs:['05a8a15d8aefaeeb.png','a0922916567ba8cf.png','bff8be86e97865b3.png','03ba9e0c43261fe5.png','731b5bb5c802bd81.png','30fe218f0f3522cb.png','d125ae48b5712431.png','e8a269e571cbeca9.png','40f9642e4ef4cdb0.png','e6f214066edcfbd3.png','8318167c994d0ce3.png','55dd5a8a23135d5d.png','0707b1bc4a2e0c1c.png'],
+    opts:[{n:'감자탕소스 샘플 1kg',p:'25,000원'},{n:'감자탕소스 10kg',p:'209,000원'},{n:'감자수제비 1kg×20ea',p:'77,000원'}]},
+  sundubu:{name:'순두부 해장국',desc:'순두부찌개, 해장국, 얼큰탕류',
+    imgs:['4230bf08f7477a75.png','3c457535f9e1aef2.png','486b4bec9a1c846b.png','a2148851098e9208.png','380d6c41e83834b0.png','c57969cd6bf22e0b.png','584e9ed20d49a41c.png','3e6def6866964fd1.png','ea1e275f0fa92b07.jpg','09f572f9598291f1.jpg'],
+    opts:[{n:'순두부 해장국',p:'9,000원'},{n:'해물 순두부',p:'11,000원'},{n:'차돌 순두부',p:'11,000원'},{n:'기찬 순두부',p:'12,000원'},{n:'샘플 (짬뽕소스+해산물소스+고추기름)',p:'17,000원'},{n:'짬뽕소스 2kg',p:'22,000원'},{n:'짬뽕소스 20kg',p:'220,000원'},{n:'해산물소스 1kg',p:'27,500원'},{n:'해산물소스 10kg',p:'275,000원'}]},
+  gopchang:{name:'곱창전골 소스',desc:'곱창전골, 닭도리탕 등 얼큰탕용',
+    imgs:['73b88a8fdb7d60bd.png','97b253474424157d.png','a69dbf8f51d5645a.png','f069bec9bce4054c.png'],
+    opts:[{n:'전골소스 샘플 180g+들깨가루',p:'12,000원'},{n:'전골소스 2kg',p:'22,000원'},{n:'전골소스 20kg',p:'220,000원'}]},
+  shabu:{name:'샤브샤브 육수',desc:'샤브샤브, 칼국수, 만두전골, 굴국밥',
+    imgs:['c305e4c0f3d6bdbd.png','3857818104a8fa18.png','694140d34c28c778.png','a67f65e0926f238c.png','feb3abe4dd6c08ab.png','871ece09e884cc0b.png','8bc0c069def959a3.png','c2dad8bfde111971.png','21ebe44329276732.png'],
+    opts:[{n:'샤브 육수용 소스 1kg',p:'30,800원'},{n:'샤브 육수용 소스 10kg',p:'308,000원'},{n:'전골소스 2kg',p:'22,000원'},{n:'전골소스 20kg',p:'220,000원'},{n:'맛소스 찍어먹는소스 1박스',p:'41,800원'},{n:'쌀칼국수 1박스 90ea',p:'87,000원'},{n:'샘플 세트',p:'20,000원'}]},
+  kalguksu:{name:'칼국수 육수',desc:'칼국수, 얼큰칼국수, 잔치국수',
+    imgs:['0a7fa010fae2474f.jpg','28d20e2a3d4000e5.png','8ff788bb8804669a.png','26ce2e5f14979996.jpg','24c1d80cf10fdc45.jpg','aacb65cecffeec08.png','392c89adb5b9335e.png','c2dad8bfde111971.png','21ebe44329274732.png'],
+    opts:[{n:'조개 칼국수 1인분',p:'9,000원'},{n:'얼큰 칼국수 1인분',p:'9,000원'},{n:'샘플세트',p:'20,000원'},{n:'조개만능소스 1kg',p:'27,500원'},{n:'조개만능소스 10kg',p:'275,000원'},{n:'전골소스 2kg',p:'22,000원'},{n:'전골소스 20kg',p:'220,000원'},{n:'쌀칼국수면 1박스 90ea',p:'95,700원'}]},
+  udong:{name:'우동 · 수육국밥 육수',desc:'우동, 수육국밥, 얼큰차돌우동국밥',
+    imgs:['e4303e4a10f615c2.png','0e64677b7dea7363.png','f707be6a34c1fcd3.png','21cb8751f3dfc2e9.png','00aad3c0f15d140c.png','27e75ec52cb1ee63.png','1d6d44bbccc3db15.png','ff56edeeae4529f4.png','7cecc248768cf0d8.png','cbf3962f4d5024a0.png','a83e317541471d73.png','82e72a207e7ac96b.png','4eb0bfead4fa6a01.png','35b2cae705360b7d.png','0906b6783747dd0d.png','804947a7203425cc.png','78c38248ca922bf8.png','06f784baf0a8bdc5.png','80f5a03480d7e818.png','e079595083d8fee4.png','10814529a26b6109.png','a28957553cada654.png','69958b6fbfdacbf5.png','beb225f4827b1b60.png','710ff44080d5be0f.png','9226334c27646fd7.png','b338ee7db45dca38.png','41f3d6a18b374d0e.png','130663ac08967be6.png','e15b2c4bc85518d5.png','2a4b12146651b88c.png','c2dad8bfde111971.png','21ebe44329286732.png'],
+    opts:[{n:'샘플 (맑은국밥소스+전골소스)',p:'19,000원'},{n:'맑은국밥소스 1kg',p:'30,800원'},{n:'맑은국밥소스 10kg',p:'308,000원'},{n:'찌개전골소스 2kg',p:'22,000원'},{n:'찌개전골소스 20kg',p:'220,000원'},{n:'삼겹전지수육 1kg',p:'22,000원'},{n:'삼겹전지수육 18kg',p:'396,000원'}]},
+  naengmyeon:{name:'냉면육수 원액 3종',desc:'기찬육수, 사골육수, 동치미육수, 목사발육수',
+    imgs:['7c7ff49a55bb23a7.png','44fd2cf0260146ad.jpg','81a947ecd2ce6a36.png','1ebae80a1d75af77.png','61a120c24f221063.png','12adafe9121e08a3.png','e2b913a98337b7fe.png','97c02bc930d8d825.jpg','21455b60c1b87b15.jpg','b90c1626b309fe80.jpg','a7d4349d0aa35029.png','15eb8900a0220e1c.jpg','cdec8f4382275cff.png','31df41ce48fb7e94.png','fcbb5cc7e7ffbfda.png'],
+    opts:[{n:'프리미엄 냉면육수 20kg',p:'154,000원'},{n:'사골 냉면육수 20kg',p:'198,000원'},{n:'동치미 냉면육수 20kg',p:'198,000원'},{n:'기찬 비빔장 2kg×9ea',p:'176,000원'},{n:'만능 비빔장 2kg×10ea',p:'154,000원'},{n:'함흥 냉면사리 2kg×9ea',p:'75,000원'},{n:'메밀 냉면사리 2kg×10ea',p:'66,000원'},{n:'흑미 쌀냉면',p:'87,000원'}]},
+  soba:{name:'소바육수 · 소바면',desc:'메밀소바면, 함흥냉면, 메밀냉면, 쌀냉면',
+    imgs:['5716082817d36b4f.jpg','36c51632bed8cd4e.jpg','49a44a2b087399cc.jpg','89723db8ed408a12.jpg','36e6bf53d9fc531e.jpg','99de7fc9884106fa.png','a52b86ed4828d4f1.png','82c12f3258ff8b7b.png','c16f77444f139d1e.png','7cd7633d5aeed627.png','bb6d9f4f3885401b.jpg'],
+    opts:[{n:'샘플 (생메밀면+쌀메밀면+메밀소바육수+생와사비+김가루)',p:'20,000원'},{n:'생메밀면 200g×75ea',p:'88,000원'},{n:'쌀메밀면 200g×90ea',p:'87,000원'},{n:'메밀소바육수 2kg×10ea',p:'187,000원'}]},
+  makguksu:{name:'들기름 막국수 · 메밀소바 육수',desc:'들기름 막국수용 참맛소스, 메밀소바 육수',
+    imgs:['5c299c44e7fbef32.png','014e6f741592d27f.png','bcadabb798a09c2f.png','14d698e7f8c63299.png','4bf59d07ce75791a.jpg','0ce156371c089f15.png','0760a823b178ca54.png','5e51541cc6dec304.png','8ffea46569d35b15.png','1e8943074aaa610d.jpg','6050cad1e65293db.png','36cfe6ea0fbf3c8a.png','e82522cdb3650a39.png','04466aea255a131e.png','3f330fef85d29cd1.png','253de06cd452134d.png','b63f751fa2f3b078.png','ea78f3e86931f205.jpg','f071c3e83f3270c7.jpg'],
+    opts:[{n:'샘플 (생메밀면×5ea+참맛소스+들기름+고운김가루+깨소금+들깨가루)',p:'22,000원'},{n:'메밀막국수면 200g×75ea',p:'88,000원'},{n:'참맛소스 2kg',p:'22,000원'},{n:'참맛소스 20kg',p:'220,000원'},{n:'들기름 1병',p:'11,000원'},{n:'들기름 1박스 15병',p:'165,000원'},{n:'깨소금 1kg',p:'11,000원'},{n:'깨소금 10kg',p:'110,000원'}]},
+  galbiim:{name:'한돈 매운 돼지갈비찜',desc:'국내산 한돈으로 만든 매운 돼지갈비찜 완제품',
+    imgs:['e01b2f8674765086.png','4966b40a514f5800.png','720a2583ba4bf16d.png','2f00197a8a55f37a.png'],
+    opts:[{n:'한돈 뚝배기갈비찜 1인분 330g×1팩',p:'6,270원'},{n:'한돈 매운갈비찜 小',p:'12,540원'},{n:'한돈 매운갈비찜 中',p:'18,810원'},{n:'한돈 매운갈비찜 大',p:'25,080원'},{n:'샘플세트 (매운갈비찜+돌돌이당면+밀 떡볶이떡)',p:'20,000원'},{n:'국내산 매운 돼지갈비찜 500g×25팩',p:'156,750원'}]},
+  gamjatang_r:{name:'1인 감자탕 / 감자탕 소스',desc:'1인용 감자탕 완제품, 원가 절감에 최적',
+    imgs:['05a8a15d8aefaeeb.png','a0922916567ba8cf.png','bff8be86e97865b3.png','03ba9e0c43261fe5.png','731b5bb5c802bd81.png','30fe218f0f3522cb.png','d125ae48b5712431.png','e8a269e571cbeca9.png','40f9642e4ef4cdb0.png','e6f214066edcfbd3.png','8318167c994d0ce3.png','55dd5a8a23135d5d.png','0707b1bc4a2e0c1c.png','cc26ab71567ff5d1.png','b0f622f4977bebff.png','dc451f96eaeccd98.png','d0ecc5b23b9885fd.png','76c3057490a4b3fe.jpg'],
+    opts:[{n:'1인감자탕 완제품 900g×1팩',p:'5,940원'},{n:'감자탕 小 완제품 900g×2팩',p:'11,880원'},{n:'감자탕 中 완제품 900g×3팩',p:'17,820원'},{n:'감자탕 大 완제품 900g×4팩',p:'23,760원'},{n:'뚝배기감자탕 샘플 900g×2팩+들깨가루',p:'17,000원'},{n:'뚝배기감자탕 정규발주 900g×16팩',p:'86,400원'},{n:'감자탕소스 정규발주 10kg',p:'209,000원'},{n:'감자수제비 정규발주 1kg×20ea',p:'77,000원'}]},
+  yangnyeomgalbi:{name:'한돈 양념 돼지갈비 1kg',desc:'즉시 조리 가능한 양념 완제품',
+    imgs:['55f683b360e2e26e.jpg','c0144cb5561eeabf.jpg','719f274fba1b9f65.jpg','1e689a4ecbeafc70.jpg','d9b9bf0a62c2d976.jpg','8ec5acbdcb885cb9.jpg','057e5fa10ea446e1.jpg','a0039d0918aa135a.jpg','19650f2435fb461a.jpg','289a39889b81d6a4.png','951b7ed0b5ef2b1b.png','1d3543525c12f0e4.png','36cbcb46159deebb.png','96b986c924c86588.png','0407ec0e1fb51a5d.png','a95eef897b234b61.png','6bbc3352b330dcc0.png','e29704a18d63c1a9.png','875ec8939d66c1d7.png','dcaa2968302796f1.png'],
+    opts:[{n:'한돈 양념돼지갈비 1kg (갈비600g/양념400g)',p:'12,100원'},{n:'한돈 양념돼지갈비 샘플 1kg×2팩+찍어먹는소스',p:'29,000원'},{n:'한돈 양념돼지갈비 1kg×18팩',p:'217,800원'},{n:'기찬 맛소스 1박스',p:'41,800원'},{n:'돼지갈비 양념 1박스',p:'53,900원'}]},
+  jjukkumi:{name:'양념쭈꾸미 500g',desc:'직접 만든 양념 그대로의 맛, 가게 시그니처 메뉴로',
+    imgs:['2bac862bfe2f1455.png','55a03f0c01bce9a5.png','80762f319afe2d43.png','151135c040a060df.png','4cc3a9f3946c6b61.png','4f9dfa1015e191d1.png','e0a2d34f42204bc4.png','816f01e0ade8f9ab.png','66e34778eaf3cf8e.jpg','b0a6bcfa14b910a9.jpg','b5dbb392854d6683.jpg','2dff56fc254f9b68.jpg','acdf7a6e7b8fce74.jpg','65b8c6881e9ec956.png','bc2b6ca421f62a57.png','aa91489de822a536.png','8caab194717336c5.png','8b1387ab81d70a13.png','5b8b79b5d5fa0fa7.png','ef7fded7a239b012.png','f9d3777ede7a7d1b.png','18f77968da3a20d5.png','48ce40f621b01104.png'],
+    opts:[{n:'양념 쭈꾸미 500g 샘플 2팩',p:'19,800원'},{n:'양념 쭈꾸미 500g',p:'9,020원'},{n:'양념 쭈꾸미 20kg',p:'356,400원'},{n:'조개만능소스 1kg',p:'27,500원'},{n:'조개만능소스 10kg',p:'275,000원'}]},
+  doejigukbap:{name:'돼지국밥 + 수육',desc:'맑은 돼지국밥, 순대국밥 완제품',
+    imgs:['166227bad2e04e93.png','89e72e6df588b34f.png','3797cf239c2bf32f.png','d3cc65a59fc94d39.png','dc0ee070386787a0.png','2990a9f3813bb432.jpg','c0f44e3c9c17b90e.jpg'],
+    opts:[{n:'돼지국밥 1팩',p:'4,100원'},{n:'돼지국밥 1박스 30팩',p:'123,000원'},{n:'순대국밥 1팩',p:'4,200원'},{n:'순대국밥 1박스 30팩',p:'126,000원'},{n:'내장국밥 1팩',p:'4,100원'},{n:'내장국밥 1박스 30팩',p:'123,000원'},{n:'모듬국밥 1팩',p:'4,500원'},{n:'모듬국밥 1박스 30팩',p:'135,000원'},{n:'전골소스 2kg',p:'22,000원'},{n:'전골소스 20kg',p:'220,000원'},{n:'돼지수육 10kg',p:'231,000원'},{n:'샘플 (국밥4종+전골소스+당면)',p:'25,000원'}]},
+  wanggalbitang:{name:'프리미엄 왕갈비탕 1kg',desc:'바로 사용 가능한 완성형 왕갈비탕',
+    imgs:['0b2b6892d5d62041.jpg','867d0acc0ab56fac.jpg','5899317fa3463ed1.jpg','1bdea5d170260573.jpg','44ec5085cb91200a.jpg','9c6a8d164a48b123.png','31a4cc2d0ef483c6.png','327b4c6227a5013a.png','4d0f902d83b69923.png','7f25a31cb9c4d3e8.png','1dffaf06d355aec2.png','9d0d753da92a223a.png','2ce6dd5ec9f12320.png','8bc0c069def959a3.png'],
+    opts:[{n:'꼼꼼 왕갈비탕 1kg',p:'9,130원'},{n:'꼼꼼 왕갈비탕 샘플 2팩+맛소스',p:'22,000원'},{n:'꼼꼼 왕갈비탕 1kg×16팩',p:'146,080원'},{n:'꼼꼼 맛소스 8kg×2ea',p:'41,800원'}]},
+  sunsalgalbitang:{name:'순살갈비탕 원팩',desc:'뼈 없이 즐기는 순살 갈비탕 완제품',
+    imgs:['cb4985c8a176f76e.png','e46c99278db05b1f.png','5899317fa3463ed1.jpg','25973b5a362b9f8a.jpg','8bc0c069def959a3.png','8240139ebc4f2132.png','b0ae8aae2274e890.png','c854154f1d953daf.png','ea1e275f0fa92b07.jpg','09f572f9598291f1.jpg'],
+    opts:[{n:'기찬 순살갈비탕 샘플 700g×2팩',p:'20,000원'},{n:'기찬 순살갈비탕 700g×20팩',p:'149,600원'},{n:'기찬 맛소스 5kg×3개',p:'39,000원'}]},
+  sogalbi:{name:'프리미엄 소갈비살 · LA갈비 · 토시살',desc:'초이스등급 프리미엄 육류 — 창업·업종변경·추가메뉴에 최적',
+    imgs:['a2c579f68184d933.gif','09b3ca884da9f0ca.gif','9f1300d5b2108357.jpg','52c23209f81a1799.png','f20cb05d5343928b.png','897a197ad5d636a8.png','e8e3f7916fc4dacb.png','6229682f5497eae5.png','e58660499faefa43.png','038460b4000def2f.png','52c08bb94503259d.jpg','8bc0c069def959a3.png','a09cb0e1b450bad0.png','de90f2e93e5763bd.png','96d39d7895cd36d3.png','f47377b01a8c7f61.png','8761682f3f3059b3.png','adb3fac2a4f678b8.png','610c937c323808a4.png','00f1c86068e88654.png','01df90eccca169f7.png','c8967805a3763679.png','b7152cf22f2262e9.png','c42c18350168321b.png','be93388eabb55e5d.png'],
+    opts:[{n:'프리미엄 갈비살 샘플 500g',p:'19,000원'},{n:'벌집 갈비살 샘플 500g',p:'20,000원'},{n:'토시살 샘플 500g',p:'21,000원'},{n:'프리미엄 갈비살 20kg (500g×40개)',p:'760,000원'},{n:'벌집 갈비살 20kg (500g×40개)',p:'800,000원'},{n:'토시살 20kg (500g×40개)',p:'840,000원'},{n:'맛소스 1박스 (8kg×2개)',p:'41,800원'}]}
+};
+
+// URL에서 id 읽어서 페이지 렌더링
+const params=new URLSearchParams(location.search);
+const id=params.get('id');
+const p=PRODUCTS[id];
+
+if(!p){
+  document.querySelector('.page').innerHTML='<p style="text-align:center;padding:80px 0;color:var(--text-muted)">제품을 찾을 수 없습니다. <a href="/" style="color:var(--orange)">메인으로</a></p>';
+}else{
+  document.title='기찬푸드 — '+p.name;
+  document.getElementById('productTitle').textContent=p.name;
+  document.getElementById('productDesc').textContent=p.desc;
+
+  // 메인 이미지
+  document.getElementById('mainImg').src=BASE+p.imgs[0];
+  document.getElementById('mainImg').onerror=function(){this.style.background='#f1f5f9'};
+
+  // 썸네일
+  const thumbsEl=document.getElementById('thumbs');
+  p.imgs.forEach((f,i)=>{
+    const img=document.createElement('img');
+    img.src=BASE+f;
+    img.className='thumb'+(i===0?' active':'');
+    img.loading='lazy';
+    img.onerror=function(){this.style.display='none'};
+    img.addEventListener('click',function(){
+      document.getElementById('mainImg').src=BASE+f;
+      document.querySelectorAll('.thumb').forEach(t=>t.classList.remove('active'));
+      this.classList.add('active');
+    });
+    thumbsEl.appendChild(img);
+  });
+
+  // 옵션
+  const optsEl=document.getElementById('options');
+  p.opts.forEach((o,i)=>{
+    const label=document.createElement('label');
+    label.className='opt-row'+(i===0?' sel':'');
+    label.innerHTML=`<input type="radio" name="opt" ${i===0?'checked':''}><span class="opt-name">${o.n}</span><span class="opt-price">${o.p}</span>`;
+    label.addEventListener('click',function(){
+      document.querySelectorAll('.opt-row').forEach(r=>r.classList.remove('sel'));
+      this.classList.add('sel');
+      this.querySelector('input').checked=true;
+      document.getElementById('oOption').value=o.n+' — '+o.p;
+    });
+    optsEl.appendChild(label);
+  });
+  // 첫 옵션 기본 세팅
+  if(p.opts.length>0) document.getElementById('oOption').value=p.opts[0].n+' — '+p.opts[0].p;
+}
+
+function scrollToForm(){
+  document.getElementById('orderSection').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+async function sendSMS(text){
+  const res=await fetch('/api/send-sms',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text})});
+  if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error||'SMS 전송 실패');}
+  return res.json();
+}
+
+async function submitOrder(){
+  const name=document.getElementById('oName').value.trim();
+  const phone=document.getElementById('oPhone').value.trim();
+  const rest=document.getElementById('oRest').value.trim();
+  const option=document.getElementById('oOption').value.trim();
+  const msg=document.getElementById('oMsg').value.trim();
+  if(!name||!phone){alert('성함과 연락처는 필수입니다.');return;}
+
+  document.getElementById('oSubmit').disabled=true;
+  document.getElementById('orderForm').style.display='none';
+  document.getElementById('oSending').style.display='block';
+
+  const now=new Date();
+  const time=`${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  const text=[
+    '📦 기찬푸드 주문/샘플 신청',
+    '─────────────────',
+    `🛒 제품: ${p?p.name:'알 수 없음'}`,
+    `📋 옵션: ${option||'(미선택)'}`,
+    `👤 성함: ${name}`,
+    `📞 연락처: ${phone}`,
+    `🏪 식당명: ${rest||'(미입력)'}`,
+    `💬 문의: ${msg||'샘플 신청 원합니다.'}`,
+    '─────────────────',
+    `🕐 ${time} 접수`
+  ].join('\n');
+
+  try{
+    await sendSMS(text);
+    document.getElementById('oSending').style.display='none';
+    document.getElementById('oSuccess').style.display='block';
+  }catch(e){
+    document.getElementById('oSending').style.display='none';
+    document.getElementById('orderForm').style.display='block';
+    document.getElementById('oSubmit').disabled=false;
+    alert('전송 실패. 잠시 후 다시 시도해주세요.\n('+e.message+')');
+  }
+}
+</script>
+</body>
+</html>
