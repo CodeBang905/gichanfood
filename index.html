@@ -490,8 +490,13 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
 }
 
 /* ── SCROLL REVEAL ── */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
+/* JS가 정상 동작할 때만 숨긴다 — JS가 실패해도 콘텐츠는 그대로 보이도록 */
+html.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+html.js .reveal.visible{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){
+  html.js .reveal{opacity:1;transform:none;transition:none}
+  .product-panel.active{animation:none}
+}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
@@ -523,6 +528,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
   .footer-inner{grid-template-columns:1fr}
 }
 </style>
+<script>document.documentElement.className+=' js';</script>
 </head>
 <body>
 
@@ -663,7 +669,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
 
   <div class="product-panel active" id="panel-tang">
     <div class="product-card reveal" onclick="openProduct('galbitang')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/acf54cc0e2335cf4.png" alt="갈비탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/acf54cc0e2335cf4.webp" alt="갈비탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">갈비탕 소스 / 해산물 소스 / 멸치진국</div>
       <div class="product-use">갈비탕, 냉면·밀면 온육수, 각종 탕류에 최적</div>
@@ -674,7 +680,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('dongtae')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/959c6ffda40cce5f.png" alt="동태탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/959c6ffda40cce5f.webp" alt="동태탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">동태탕 소스</div>
       <div class="product-use">동태탕, 대구탕, 아구탕, 매운탕, 해물탕, 알탕 (지리/얼큰)</div>
@@ -685,7 +691,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('chueo')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/c0d3f9951589345d.png" alt="추어탕 재료" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/c0d3f9951589345d.webp" alt="추어탕 재료" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">액상</span>
       <div class="product-name">추어탕 재료</div>
       <div class="product-use">추어매운탕, 추어탕, 어탕국수, 어제비, 매운탕 (맑은/얼큰)</div>
@@ -695,7 +701,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('hwangtae')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/82d7388fb29a2675.jpg" alt="황태해산물 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/82d7388fb29a2675.webp" alt="황태해산물 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">황태 해산물 소스</div>
       <div class="product-use">미역국, 콩나물국밥, 황태해장국, 칼국수</div>
@@ -705,7 +711,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('miyeok')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/8be65c947e1746aa.png" alt="미역국 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/8be65c947e1746aa.webp" alt="미역국 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-new">신제품</span>
       <div class="product-name">미역국 소스</div>
       <div class="product-use">미역국 전용 분말 소스 — 1kg에 125인분</div>
@@ -715,7 +721,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('gamjatang')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/05a8a15d8aefaeeb.png" alt="감자탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/05a8a15d8aefaeeb.webp" alt="감자탕 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">감자탕 · 뼈다귀해장국 소스</div>
       <div class="product-use">감자탕, 뼈다귀해장국 전용</div>
@@ -725,7 +731,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('sundubu')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/4230bf08f7477a75.png" alt="순두부 해장국" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/4230bf08f7477a75.webp" alt="순두부 해장국" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">순두부 해장국</div>
       <div class="product-use">순두부찌개, 해장국, 얼큰탕류</div>
@@ -736,7 +742,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('gopchang')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/73b88a8fdb7d60bd.png" alt="곱창전골 소스" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/73b88a8fdb7d60bd.webp" alt="곱창전골 소스" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">액상</span>
       <div class="product-name">곱창전골 소스</div>
       <div class="product-use">곱창전골, 닭도리탕 등 얼큰탕용</div>
@@ -746,7 +752,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('shabu')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/c305e4c0f3d6bdbd.png" alt="샤브샤브 육수" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/c305e4c0f3d6bdbd.webp" alt="샤브샤브 육수" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">샤브샤브 육수</div>
       <div class="product-use">샤브샤브, 칼국수, 만두전골, 굴국밥</div>
@@ -756,7 +762,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('gamjatang_r')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/05a8a15d8aefaeeb.png" alt="뼈해장국" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/05a8a15d8aefaeeb.webp" alt="뼈해장국" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">완제품</span>
       <div class="product-name">뼈해장국 (900g)</div>
       <div class="product-use">진하고 깊은 뼈해장국 완제품</div>
@@ -766,7 +772,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('kalguksu')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/0a7fa010fae2474f.jpg" alt="칼국수 육수" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/0a7fa010fae2474f.webp" alt="칼국수 육수" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">칼국수 육수</div>
       <div class="product-use">칼국수, 얼큰칼국수, 잔치국수</div>
@@ -776,7 +782,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('udong')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/e4303e4a10f615c2.png" alt="우동 육수" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/e4303e4a10f615c2.webp" alt="우동 육수" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">분말</span>
       <div class="product-name">우동 · 수육국밥 육수</div>
       <div class="product-use">우동, 수육국밥, 얼큰차돌우동국밥</div>
@@ -789,7 +795,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
 
   <div class="product-panel" id="panel-noodle">
     <div class="product-card reveal" onclick="openProduct('naengmyeon')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/7c7ff49a55bb23a7.png" alt="냉면육수 원액" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/7c7ff49a55bb23a7.webp" alt="냉면육수 원액" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">냉면육수 원액 3종</div>
       <div class="product-use">기찬육수, 사골육수, 동치미육수, 목사발육수</div>
@@ -800,7 +806,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('soba')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/5716082817d36b4f.jpg" alt="소바육수 소바면" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/5716082817d36b4f.webp" alt="소바육수 소바면" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">면류+육수</span>
       <div class="product-name">소바육수 · 소바면</div>
       <div class="product-use">메밀소바면, 함흥냉면, 메밀냉면, 쌀냉면</div>
@@ -810,7 +816,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('makguksu')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/5c299c44e7fbef32.png" alt="들기름 막국수" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/5c299c44e7fbef32.webp" alt="들기름 막국수" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-new">신제품</span>
       <div class="product-name">들기름 막국수 · 메밀소바 육수</div>
       <div class="product-use">들기름 막국수용 참맛소스, 메밀소바 육수</div>
@@ -823,7 +829,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
 
   <div class="product-panel" id="panel-ready">
     <div class="product-card reveal" onclick="openProduct('galbiim')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/e01b2f8674765086.png" alt="한돈 돼지갈비찜" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/e01b2f8674765086.webp" alt="한돈 돼지갈비찜" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">한돈 매운 돼지갈비찜</div>
       <div class="product-use">국내산 한돈으로 만든 돼지갈비찜</div>
@@ -834,7 +840,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('gamjatang_r')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/166227bad2e04e93.png" alt="1인 감자탕" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/166227bad2e04e93.webp" alt="1인 감자탕" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">완제품</span>
       <div class="product-name">1인 감자탕 / 감자탕 소스</div>
       <div class="product-use">1인용 감자탕 완제품, 원가 절감에 최적</div>
@@ -844,7 +850,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('yangnyeomgalbi')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/55f683b360e2e26e.jpg" alt="한돈 양념돼지갈비" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/55f683b360e2e26e.webp" alt="한돈 양념돼지갈비" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">한돈 양념 돼지갈비 1kg</div>
       <div class="product-use">즉시 조리 가능한 양념 완제품</div>
@@ -855,7 +861,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('jjukkumi')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/2bac862bfe2f1455.png" alt="양념쭈꾸미" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/2bac862bfe2f1455.webp" alt="양념쭈꾸미" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">완제품</span>
       <div class="product-name">양념쭈꾸미 500g</div>
       <div class="product-use">직접 만든 양념 그대로의 맛, 가게 시그니처 메뉴로</div>
@@ -865,7 +871,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('doejigukbap')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/166227bad2e04e93.png" alt="돼지국밥 수육" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/166227bad2e04e93.webp" alt="돼지국밥 수육" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">완제품</span>
       <div class="product-name">돼지국밥 + 수육</div>
       <div class="product-use">맑은 돼지국밥, 순대국밥 완제품</div>
@@ -875,7 +881,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('wanggalbitang')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/0b2b6892d5d62041.jpg" alt="프리미엄 왕갈비탕" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/0b2b6892d5d62041.webp" alt="프리미엄 왕갈비탕" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge badge-hot">🔥 인기</span>
       <div class="product-name">프리미엄 왕갈비탕 1kg</div>
       <div class="product-use">바로 사용 가능한 완성형 왕갈비탕</div>
@@ -886,7 +892,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('sunsalgalbitang')">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/cb4985c8a176f76e.png" alt="순살갈비탕" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/cb4985c8a176f76e.webp" alt="순살갈비탕" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge">완제품</span>
       <div class="product-name">순살갈비탕 원팩</div>
       <div class="product-use">뼈 없이 즐기는 순살 갈비탕 완제품</div>
@@ -896,7 +902,7 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
       </div>
     </div>
     <div class="product-card reveal" onclick="openProduct('sogalbi')" style="border-color:rgba(249,115,22,.4);background:linear-gradient(135deg,var(--surface),#1a1000)">
-      <div class="product-img-wrap"><img src="https://kichan-food.vercel.app/img-cache/a2c579f68184d933.gif" alt="소갈비살 LA갈비" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="product-img-wrap"><img src="/img/a2c579f68184d933.webp" alt="소갈비살 LA갈비" loading="lazy" onerror="this.style.display='none'"></div>
       <span class="product-badge" style="background:rgba(249,115,22,.2);color:var(--orange2)">⭐ 초이스등급</span>
       <div class="product-name">프리미엄 소갈비살 · LA갈비 · 토시살</div>
       <div class="product-use">초이스등급 프리미엄 육류 — 창업·업종변경·추가메뉴에 최적</div>
@@ -1441,10 +1447,24 @@ const statsEl=document.querySelector('.stats-section');
 if(statsEl) statsObs.observe(statsEl);
 
 // ── REVEAL 애니메이션 ──
-const revealObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
-},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+// 화면에 들어온 요소를 표시한다. IntersectionObserver가 없거나
+// 동작하지 않는 환경에서도 콘텐츠가 숨겨진 채 남지 않도록 하는 공통 경로.
+function revealInView(){
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top<innerHeight-40&&r.bottom>0) el.classList.add('visible');
+  });
+}
+if('IntersectionObserver' in window){
+  const revealObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
+  },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+}
+addEventListener('scroll',revealInView,{passive:true});
+addEventListener('resize',revealInView,{passive:true});
+addEventListener('load',revealInView);
+revealInView();
 
 // ── 제품 상세 모달 ──
 const BASE='https://kichan-food.vercel.app/img-cache/';
