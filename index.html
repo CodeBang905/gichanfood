@@ -515,11 +515,10 @@ footer .footer-bottom{border-top-color:rgba(255,255,255,.1)}
 @media(max-width:480px){
   section{padding:70px 5%}
   .product-panel.active,.search-panel.active{grid-template-columns:repeat(2,1fr);gap:12px}
-  .product-img-wrap{height:120px}
+  .product-card{padding:12px}
+  .product-img-wrap{width:calc(100% + 24px);margin:-12px -12px 12px;height:auto;aspect-ratio:4/3}
   .product-name{font-size:.85rem}
   .product-price{font-size:.8rem}
-  .product-card{padding:0 0 12px}
-  .product-info{padding:10px 10px 0}
   .hero-actions{flex-direction:column;align-items:flex-start}
   .footer-inner{grid-template-columns:1fr}
 }
